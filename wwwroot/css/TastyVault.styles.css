@@ -1,0 +1,12 @@
+﻿.content-wrap{
+  transform: translateX(20%)
+}
+
+.carousel-control-wrap{
+  width: 41.66667%
+}
+
+.hot-blog-img{
+  min-height: 500px;
+  background-size: cover;
+}
