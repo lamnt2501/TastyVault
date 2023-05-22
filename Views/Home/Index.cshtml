@@ -1,8 +1,35 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+  ViewData["Title"] = "Trang chủ";
+
+  var model1 = new TastyVault.Views.Shared._HotBlogModel()
+      {
+        ImagePath = "/img/Anh-avatar-dep-chat-lam-hinh-dai-dien.jpg",
+        Title = "Món ăn hot nhất những ngày hè là gì ??",
+        Description = "Tất nhiên là dưa hấu dầm đá, các món mát lạnh tới từ hoa quả"
+      };
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div id="carouselAutoplaying" class="carousel slide position-relative" data-bs-ride="carousel">
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <partial name="_HotBlog" model="@model1"></partial>
+    </div>
+    <div class="carousel-item">
+      <partial name="_HotBlog" model="@model1"></partial>
+    </div>
+  </div>
+  <div class="btn-group carousel-control-wrap position-absolute bottom-0 end-0">
+    <button class="btn btn-light p-3" type="button" data-bs-target="#carouselAutoplaying" data-bs-slide="prev">
+      <span class="text-dark">
+        <i class="fa-solid fa-arrow-left"></i>
+        Quay lại
+      </span>
+    </button>
+    <button class="btn btn-light rounded-0" type="button" data-bs-target="#carouselAutoplaying" data-bs-slide="next">
+      <span class="text-dark">
+        Tiếp theo
+        <i class="fa-solid fa-arrow-right"></i>
+      </span>
+    </button>
+  </div>
 </div>
