@@ -1,12 +1,44 @@
-﻿.content-wrap{
-  transform: translateX(20%)
+﻿:root {
+  --primary: rgb(93,123,111);
+  --secondary: rgb(164,195,162);
+  --thirdcolor: rgb(176,212,184);
+  --fourthcolor: rgb(234,231,214);
+  --fifthcolor: rgb(215,249,250);
+}
+
+.slider {
+  background-color: var(--fifthcolor);
+}
+
+.content-wrap {
+  transform: translateX(20%);
 }
 
 .carousel-control-wrap{
-  width: 41.66667%
+  width: 41.5%;
 }
 
-.hot-blog-img{
-  min-height: 500px;
+/* tinh chinh 1 so img*/
+.bg-img{
   background-size: cover;
+  background-position: center;
+}
+.hot-blog-img {
+  min-height: 500px;
+}
+
+.recipe-img {
+  min-height: 200px;
+}
+
+.post-img {
+  min-height: 300px;
+}
+
+.hot-recipe-rectangle {
+  margin-left: -12px
+}
+
+.hot-recipe-rectangle{
+
 }

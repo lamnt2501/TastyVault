@@ -7,6 +7,8 @@
         Title = "Món ăn hot nhất những ngày hè là gì ??",
         Description = "Tất nhiên là dưa hấu dầm đá, các món mát lạnh tới từ hoa quả"
       };
+  var date = DateTime.Now;
+  var datestring = $"{date.Day}/{date.Month}/{date.Year} {date.ToShortTimeString()}";
 }
 
 <div id="carouselAutoplaying" class="carousel slide position-relative" data-bs-ride="carousel">
@@ -32,4 +34,66 @@
       </span>
     </button>
   </div>
+</div>
+
+<h2 class="text-black mt-5">Món ăn mới nhất </h2>
+<div class="row">
+  <div class="col-8 p-0 ">
+    <div class="container-fluid">
+      <div class="row">
+        @for (int i = 0; i <= 3; i++)
+        {
+          <div class="col-6 ps-0">
+            <div class="border">
+              <div class="recipe-img rounded bg-img" style="background-image:url('/img/monan2.jpg')"></div>
+              <div class="px-2">
+                <p class="recipe-title mt-1 mb-2 fs-5">Món ăn qq gì đó</p>
+                <p class="mb-2 fw-light"><i>@datestring</i></p>
+              </div>
+            </div>
+            <a class="btn btn-outline-dark mt-2 mb-3">
+              Xem chi tiết
+              <i class="fa-solid fa-arrow-right"></i>
+            </a>
+          </div>
+          if (i == 1)
+          {
+            <div class="w-100"></div>
+          }
+        }
+      </div>
+
+    </div>
+  </div>
+  <div class="col-4 border p-0 hot-recipe-rectangle position-relative">
+    <div class="w-100 h-100 rounded" style="background:url('@model1.ImagePath') center no-repeat"></div>
+    <h3 class="position-absolute top-50 text-light ms-3 w-75">Nhìn 1 lần cũng biết làm</h3>
+    <a class="btn btn-light position-absolute bottom-0 end-0">
+      Xem chi tiết
+      <i class="fa-solid fa-arrow-right"></i>
+    </a>
+  </div>
+</div>
+
+<h2 class="text-black mt-5">Bài viết nổi bật vãil</h2>
+<div class="row">
+  @for (int i = 1; i <= 3; i++)
+  {
+    <div class="col-4">
+      <div class="border">
+        <div class="post-img rounded bg-img" style="background-image:url('/img/monan.jpg')"></div>
+        <div class="px-2">
+          <p class="recipe-title mt-1 mb-2 fs-5">Bài viết củ chuối nào  đó</p>
+          <div class="clearfix mb-2">
+            <p class="fw-light mb-0 float-start"><i>@datestring</i></p>
+            <a class="float-end btn p-0"><i class="fa-regular fa-heart"></i>12</a>
+          </div>
+        </div>
+      </div>
+      <a class="btn btn-outline-dark mt-2 mb-3">
+        Xem chi tiết
+        <i class="fa-solid fa-arrow-right"></i>
+      </a>
+    </div>
+  }
 </div>
