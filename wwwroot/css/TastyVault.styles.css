@@ -4,6 +4,15 @@
   --thirdcolor: rgb(176,212,184);
   --fourthcolor: rgb(234,231,214);
   --fifthcolor: rgb(215,249,250);
+  --bgcolor: rgb(244,246,252);
+}
+
+body{
+  margin:0;
+}
+
+.bg-main{
+  background-color: var(--bgcolor);
 }
 
 .slider {
@@ -41,4 +50,19 @@
 
 .hot-recipe-rectangle{
 
+}
+
+/**/
+.header-wrap {
+  min-height: 50px;
+  border-bottom: 1px solid #ccc;
+}
+
+.avt-wrap {
+  width: 50px;
+  height: 50px;
+}
+
+.btn:active{
+  transform: scale(0.9);
 }

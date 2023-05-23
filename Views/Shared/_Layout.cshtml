@@ -7,15 +7,15 @@
   <script src="https://kit.fontawesome.com/d850c3fff6.js" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
   <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-  <link rel="stylesheet" href="~/css/TastyVault.styles.css" asp-append-version="true" /> 
+  <link rel="stylesheet" href="~/css/TastyVault.styles.css" asp-append-version="true" />
 </head>
-<body >
+<body>
   <div class="container-fluid">
     <div class="row">
-      <div class="col-2 border-end position-fixed top-0 start-0 z-1">
+      <div class="col-2 border-end position-fixed top-0 start-0 z-1 h-100">
 
         <div class="logo-wrap">
-          <img class="img-fluid" src="~/img/logo-vtc-academy-plus-color.png" />
+          <img class="img-fluid" src="~/img/logo.png" />
         </div>
 
         <p class="m-0 mt-2"><strong>TRANG CHỦ</strong></p>
@@ -53,72 +53,65 @@
       </div>
 
       <div class="col-10 px-0 content-wrap">
-        <header>
+        <header class="header-wrap clearfix">
+          @*
           <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow">
-            <div class="container-fluid">
+          <div class="container-fluid">
 
-              <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">TastyVault</a>
-              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                      aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-              </button>
+          <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">TastyVault</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+          aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+          </button>
 
-              <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                <ul class="navbar-nav flex-grow-1">
-                  <li class="nav-item">
-                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                  </li>
-                </ul>
-              </div>
-
-            </div>
-
-          </nav>
-
-        </header>
-
-          <main role="main" class="pb-3">
-          <div class=" container-fluid  pt-3">
-            @RenderBody()
+          <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+          <ul class="navbar-nav flex-grow-1">
+          <li class="nav-item">
+          <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+          </li>
+          <li class="nav-item">
+          <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+          </li>
+          </ul>
           </div>
 
-          </main>
+          </div>
+
+          </nav>
+          *@        
+          @* khi người dùng đã đăng nhập*@
+          <div class="dropdown" style="background: url('/img/monan.jpg') center no-repeat">
+            <button class="btn btn-secondary avt-wrap rounded-circle float-end my-2 me-2" style="background: url('/img/monan.jpg') center no-repeat" data-bs-toggle="dropdown" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            </button>
+            <div class="dropdown-menu p-0" aria-labelledby="dropdownMenuButton">
+              <a class="dropdown-item" href="#">Trang cá nhân</a>
+              <a class="dropdown-item" href="#">Đăng xuất</a>
+            </div>
+          </div>
+        </header>
+
+        <main role="main" class="pb-3 bg-main">
+          <div class=" container-fluid pt-3">
+            @RenderBody()
+          </div>
+        </main>
+
+        <footer class="border-top footer text-muted z-3 py-5">
+          <div class="container text-center">
+            &copy; @DateTime.Now - TastyVault - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+          </div>
+        </footer>
       </div>
     </div>
   </div>
 
+
+
+
+
+
+
   
-
-       
-
-  <br />
-  <br />
-  <br />
-  <br />
-  <br />
-  <br />
-  <br />
-  <br />
-  <br />
-  <br />
-  <br />
-  <br />
-  <br />
-  <br />
-  <br />
-  <br />
-  <br />
-  <br />
-  <br />
-
-  <footer class="border-top footer text-muted">
-    <div class="container text-center">
-      &copy; @DateTime.Now - TastyVault - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-    </div>
-  </footer>
   <script src="~/lib/jquery/dist/jquery.min.js"></script>
   <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
   <script src="~/js/site.js" asp-append-version="true"></script>
