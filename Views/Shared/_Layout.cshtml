@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="~/css/TastyVault.styles.css" asp-append-version="true" />
 </head>
 <body>
+
   <div class="container-fluid">
     <div class="row">
       <div class="col-2 border-end position-fixed top-0 start-0 z-1 h-100">
@@ -18,74 +19,49 @@
           <img class="img-fluid" src="~/img/logo.png" />
         </div>
 
-        <p class="m-0 mt-2"><strong>TRANG CHỦ</strong></p>
+        <p class="m-0 mt-2 text-main"><strong>TRANG CHỦ</strong></p>
         <ul class="navbar-nav ms-2">
           <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Trang chủ</a>
+            <a class="nav-link text-sub" asp-area="" asp-controller="Home" asp-action="Index">Trang chủ</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Mục lục món ăn</a>
+          <li class="nav-item">         
+            <a class="nav-link text-sub" asp-area="" asp-controller="Home" asp-action="Privacy">Mục lục món ăn</a>
           </li>
         </ul>
 
-        <p class="m-0 mt-2"><strong>BÀI VIẾT</strong></p>
+        <p class="m-0 mt-2 text-main"><strong>BÀI VIẾT</strong></p>
         <ul class="navbar-nav ms-2">
           <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Tạo bài viết</a>
+            <a class="nav-link text-sub" asp-area="" asp-controller="Home" asp-action="Index">Tạo bài viết</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Bài viết của bạn</a>
+            <a class="nav-link text-sub" asp-area="" asp-controller="Home" asp-action="Privacy">Bài viết của bạn</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Blog chia sẻ</a>
+            <a class="nav-link text-sub" asp-area="" asp-controller="Home" asp-action="Privacy">Blog chia sẻ</a>
           </li>
         </ul>
 
-        <p class="m-0 mt-2"><strong>THỰC ĐƠN</strong></p>
+        <p class="m-0 mt-2 text-main"><strong>THỰC ĐƠN</strong></p>
         <ul class="navbar-nav ms-2">
           <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Thực đơn gợi ý</a>
+            <a class="nav-link text-sub" asp-area="" asp-controller="Home" asp-action="Index">Thực đơn gợi ý</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Thực đơn của bạn</a>
+            <a class="nav-link text-sub" asp-area="" asp-controller="Home" asp-action="Privacy">Thực đơn của bạn</a>
           </li>
         </ul>
       </div>
 
       <div class="col-10 px-0 content-wrap">
-        <header class="header-wrap clearfix">
-          @*
-          <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow">
-          <div class="container-fluid">
-
-          <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">TastyVault</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-          aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-          </button>
-
-          <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-          <ul class="navbar-nav flex-grow-1">
-          <li class="nav-item">
-          <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-          </li>
-          <li class="nav-item">
-          <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-          </li>
-          </ul>
-          </div>
-
-          </div>
-
-          </nav>
-          *@        
+        <header class="header-wrap clearfix"> 
           @* khi người dùng đã đăng nhập*@
           <div class="dropdown" style="background: url('/img/monan.jpg') center no-repeat">
             <button class="btn btn-secondary avt-wrap rounded-circle float-end my-2 me-2" style="background: url('/img/monan.jpg') center no-repeat" data-bs-toggle="dropdown" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             </button>
             <div class="dropdown-menu p-0" aria-labelledby="dropdownMenuButton">
               <a class="dropdown-item" href="#">Trang cá nhân</a>
-              <a class="dropdown-item" href="#">Đăng xuất</a>
+              <a class="dropdown-item text-danger" href="#">Đăng xuất</a>
             </div>
           </div>
         </header>
@@ -105,13 +81,6 @@
     </div>
   </div>
 
-
-
-
-
-
-
-  
   <script src="~/lib/jquery/dist/jquery.min.js"></script>
   <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
   <script src="~/js/site.js" asp-append-version="true"></script>

@@ -7,11 +7,19 @@
   --bgcolor: rgb(244,246,252);
 }
 
-body{
-  margin:0;
+body {
+  margin: 0;
 }
 
-.bg-main{
+.text-main {
+  color: var(--primary)
+}
+
+.text-sub {
+  color: var(--secondary);
+}
+
+.bg-main {
   background-color: var(--bgcolor);
 }
 
@@ -19,19 +27,24 @@ body{
   background-color: var(--fifthcolor);
 }
 
+.btn-outline-main{
+  border-color: #f4f6fc;
+}
+
 .content-wrap {
   transform: translateX(20%);
 }
 
-.carousel-control-wrap{
+.carousel-control-wrap {
   width: 41.5%;
 }
 
 /* tinh chinh 1 so img*/
-.bg-img{
+.bg-img {
   background-size: cover;
   background-position: center;
 }
+
 .hot-blog-img {
   min-height: 500px;
 }
@@ -48,8 +61,7 @@ body{
   margin-left: -12px
 }
 
-.hot-recipe-rectangle{
-
+.hot-recipe-rectangle {
 }
 
 /**/
@@ -63,6 +75,12 @@ body{
   height: 50px;
 }
 
-.btn:active{
+.btn:active {
   transform: scale(0.9);
+}
+
+.selected-nav-link{
+  background-color: var(--secondary);
+  color: #fff;
+  text-align: center;
 }

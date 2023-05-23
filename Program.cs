@@ -1,7 +1,20 @@
+using Microsoft.EntityFrameworkCore;
+using TastyVault.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddDbContext<AppDbContext>(options =>
+{
+  string? connectionString = builder.Configuration.GetConnectionString("AppConnectionString");
+  if (connectionString == null)
+  {
+    connectionString = "Data Source=LAPTOP-KJH263H7;Initial Catalog=tastyvaultdb;User Id=sa;Password=123;Encrypt=False";
+  }
+  options.UseSqlServer(connectionString);
+});
+
 
 var app = builder.Build();
 
