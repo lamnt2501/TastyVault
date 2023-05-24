@@ -1,0 +1,38 @@
+﻿@model IEnumerable<TastyVault.Models.Category>
+
+@{
+  ViewData["Title"] = "Index";
+  var parentCategories = (from c in Model.ToList()
+                          where c.ParentCatecoryId == 0
+                          select c).ToList();
+}
+
+<h1>Index</h1>
+
+<p>
+  <a asp-action="Create">Create New</a>
+</p>
+
+@foreach (var pc in parentCategories)
+{
+  <h3 class="text-main mt-5">@pc.Name</h3>
+  var childCategories = (from c in Model.ToList()
+                         where c.ParentCatecoryId == pc.Id
+                         select c).ToList();
+  <div class="row">
+    @for (int i = 0; i < childCategories.Count; i++)
+    {
+      var md = new TastyVault.Views.Categories._CategoryListItemModel()
+          {
+            Category = childCategories[i]
+          };
+      <div class="col-6">
+        <partial name="_CategoryListItem" model="md"></partial>
+      </div>
+      if (i % 2 != 0)
+      {
+        <div class="w-100"></div>
+      }
+    }
+  </div>
+}

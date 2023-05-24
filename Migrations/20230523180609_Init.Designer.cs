@@ -12,8 +12,8 @@ using TastyVault.Models;
 namespace TastyVault.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230523164032_categories-ingredient-and-more")]
-    partial class categoriesingredientandmore
+    [Migration("20230523180609_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -88,10 +88,16 @@ namespace TastyVault.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ImagePath")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
+
+                    b.Property<int>("ParentCatecoryId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 

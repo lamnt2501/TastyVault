@@ -84,3 +84,7 @@ body {
   color: #fff;
   text-align: center;
 }
+
+.category-link{
+  border-radius: 32px;
+}
