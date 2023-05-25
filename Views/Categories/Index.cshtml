@@ -1,21 +1,18 @@
 ﻿@model IEnumerable<TastyVault.Models.Category>
 
 @{
-  ViewData["Title"] = "Index";
+  ViewData["Title"] = "Mục mục món ăn";
   var parentCategories = (from c in Model.ToList()
                           where c.ParentCatecoryId == 0
                           select c).ToList();
 }
-
-<h1>Index</h1>
-
-<p>
+@*<p>
   <a asp-action="Create">Create New</a>
-</p>
+</p>*@
 
 @foreach (var pc in parentCategories)
 {
-  <h3 class="text-main mt-5">@pc.Name</h3>
+  <h3 class="text-main mt-4">@pc.Name</h3>
   var childCategories = (from c in Model.ToList()
                          where c.ParentCatecoryId == pc.Id
                          select c).ToList();
@@ -26,10 +23,10 @@
           {
             Category = childCategories[i]
           };
-      <div class="col-6">
+      <div class="col-4">
         <partial name="_CategoryListItem" model="md"></partial>
       </div>
-      if (i % 2 != 0)
+      if ((i+1) % 3 == 0)
       {
         <div class="w-100"></div>
       }

@@ -1,6 +1,6 @@
 ﻿@model TastyVault.Views.Categories._CategoryListItemModel
 
-<a href="#" class="d-flex bg-white text-decoration-none text-sub my-2 btn border category-link">
+<a class="d-flex bg-white text-decoration-none text-sub my-2 btn border category-link" asp-controller="Recipes" asp-action="Index" asp-route-cateId="@Model.Category.Id">
   <div class="category-img-wrap rounded-circle ms-3">
     <img class="rounded-circle" src="@Model.Category.ImagePath" style="width: 50px; height:50px" />
   </div>

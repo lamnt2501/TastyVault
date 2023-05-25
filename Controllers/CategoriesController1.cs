@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using TastyVault.Models;
 
@@ -70,14 +65,14 @@ namespace TastyVault.Controllers
     {
       if (ModelState.IsValid)
       {
-        if(categoryModel.Category.ParentCatecoryId != 0)
+        if (categoryModel.Category.ParentCatecoryId != 0)
         {
-          if(_context.Categories.Where(c => c.Id == categoryModel.Category.ParentCatecoryId).FirstOrDefault() == null)
+          if (_context.Categories.Where(c => c.Id == categoryModel.Category.ParentCatecoryId).FirstOrDefault() == null)
           {
             return View(categoryModel);
           }
         }
-        if(categoryModel.FileUpload!=null && categoryModel.FileUpload.Length> 0)
+        if (categoryModel.FileUpload != null && categoryModel.FileUpload.Length > 0)
         {
           var path = Path.Combine(_webHostEnvironment.WebRootPath, "uploads", categoryModel.FileUpload.FileName);
           using var stream = new FileStream(path, FileMode.Create);
