@@ -49,6 +49,8 @@ namespace TastyVault.Controllers
     [HttpGet]
     public IActionResult Create(int cateId)
     {
+      ViewData["Categories"] = _context.Categories.ToList();
+      ViewData["Ingredients"] = _context.Ingredients.ToList();
       ViewData["CateId"] = cateId;
       return View();
     }
@@ -60,31 +62,26 @@ namespace TastyVault.Controllers
     {
       public Recipe Recipe { get; set; }
       public IFormFile[] files { get; set; }
-      public int cateId { get; set; }
+      public int[] cateId { get; set; }
       public List<CookStep> cookSteps { get; set; }
     }
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create(RecipeModel? recipeModel,string dd)
+    public async Task<IActionResult> Create(RecipeModel? recipeModel)
     {
-      string v ="";
-
-      foreach(var r in Request.Form)
-      {
-        if (r.Key.Contains("cs"))
-        {
-          var  a = r.Key.Substring(r.Key.IndexOf('s')+1);
-          v += r.Key + ": " + r.Value + $" {a}\n";
-        }
-      }
-        return Content(v);
+      return Content(ModelState.IsValid.ToString());
       if (ModelState.IsValid)
       {
-        //_context.Add(recipe);
+        string v = "";
+        v += _context.Recipes.Count() + " ";
+        _context.Add(recipeModel.Recipe);
+        v += _context.Recipes.Count() + " ";
         await _context.SaveChangesAsync();
-        return RedirectToAction(nameof(Index));
+        v += _context.Recipes.Count() + " ";
+        return Content(v);
+        //return RedirectToAction(nameof(Index));
       }
-      return View(recipeModel.Recipe);
+      return View(recipeModel);
     }
 
     // GET: Recipes/Edit/5

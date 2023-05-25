@@ -1,62 +1,58 @@
 ﻿@model TastyVault.Controllers.RecipesController.RecipeModel
-
+@using Newtonsoft.Json;
+@using Newtonsoft.Json.Serialization;
 @{
   ViewData["Title"] = "Create";
-  List<CookStep> csl = new List<CookStep>()
-  {
-    new CookStep(){StepOrder=1,Description="123"}  ,
-    new CookStep(){StepOrder=2,Description="456"}  ,
-  };
+  var categories = ViewData["Categories"] as List<Category>;
+  var ingredients = ViewData["Ingredients"] as List<Ingredient>;
+  var js = JsonConvert.SerializeObject(ingredients);
 }
 
-<h1>Create</h1>
-
-<h4>Recipe</h4>
+<input type="hidden" class="data" value='@js' />
 <hr />
 <div class="row">
-    <div class="col-12">
-        <form asp-action="Create" method="post">
-            @*<div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="@Model.Recipe.Name" class="control-label"></label>
-                <input asp-for="@Model.Recipe.Name" class="form-control" />
-                <span asp-validation-for="@Model.Recipe.Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="@Model.Recipe.Description" class="control-label"></label>
-        <textarea asp-for="@Model.Recipe.Description" class="form-control"></textarea>
-                <span asp-validation-for="@Model.Recipe.Description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="@Model.cateId" class="control-label"></label>
-                <input asp-for="@Model.cateId" class="form-control" />
-                <span asp-validation-for="@Model.cateId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="@Model.files" class="control-label"></label>
-                <input asp-for="@Model.files" class="form-control" />
-                <span asp-validation-for="@Model.files" class="text-danger"></span>
-            </div>*@
-          <div class="form-group">
-            <label asp-for="@Model.cateId" class="control-label"></label>
-            <input asp-for="@Model.cateId" class="form-control" readonly value="@ViewData["CateId"]" />
-            <span asp-validation-for="@Model.cateId" class="text-danger"></span>
-          </div>
-          <div class="form-group">
-            <textarea  class="form-control" name="dd">hehee</textarea>
-          </div>
-            <partial name="_CookStepPartial"></partial>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
+  <div class="col-12">
+    <form asp-action="Create" method="post">
+      <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+      <div class="form-group">
+      <label asp-for="@Model.Recipe.Name" class="control-label"></label>
+      <input asp-for="@Model.Recipe.Name" class="form-control" />
+      <span asp-validation-for="@Model.Recipe.Name" class="text-danger"></span>
+      </div>
+      <div class="form-group">
+        <label asp-for="@Model.cateId" class="control-label">Danh mục</label>
+        <select asp-for="@Model.cateId" multiple class="form-control select">
+          @foreach (var c in categories.Where(ct=>ct.ParentCatecoryId!=0))
+          {
+            <option value="@c.Id">@c.Name</option>
+          }
+        </select>
+        <span asp-validation-for="@Model.cateId" class="text-danger"></span>
+      </div>
+      <div class="form-group">
+      <label asp-for="@Model.Recipe.Description" class="control-label"></label>
+      <textarea asp-for="@Model.Recipe.Description" class="form-control"></textarea>
+      <span asp-validation-for="@Model.Recipe.Description" class="text-danger"></span>
+      </div>
+      <div class="form-group mb-3">
+      <label asp-for="@Model.files" class="control-label">Ảnh món ăn</label>
+      <input asp-for="@Model.files" class="form-control" />
+      <span asp-validation-for="@Model.files" class="text-danger"></span>
+      </div>
+      <partial name="_CookStepPartial"></partial>
+      <div class="form-group mt-3">
+        <input type="submit" value="Create" class="btn btn-primary" />
+      </div>
+    </form>
+  </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+  <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+  @{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+  }
 }
