@@ -1,7 +1,12 @@
-﻿@model TastyVault.Models.Recipe
+﻿@model TastyVault.Controllers.RecipesController.RecipeModel
 
 @{
-    ViewData["Title"] = "Create";
+  ViewData["Title"] = "Create";
+  List<CookStep> csl = new List<CookStep>()
+  {
+    new CookStep(){StepOrder=1,Description="123"}  ,
+    new CookStep(){StepOrder=2,Description="456"}  ,
+  };
 }
 
 <h1>Create</h1>
@@ -9,34 +14,38 @@
 <h4>Recipe</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="col-12">
+        <form asp-action="Create" method="post">
+            @*<div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+                <label asp-for="@Model.Recipe.Name" class="control-label"></label>
+                <input asp-for="@Model.Recipe.Name" class="form-control" />
+                <span asp-validation-for="@Model.Recipe.Name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
+                <label asp-for="@Model.Recipe.Description" class="control-label"></label>
+        <textarea asp-for="@Model.Recipe.Description" class="form-control"></textarea>
+                <span asp-validation-for="@Model.Recipe.Description" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="CreatedDate" class="control-label"></label>
-                <input asp-for="CreatedDate" class="form-control" />
-                <span asp-validation-for="CreatedDate" class="text-danger"></span>
+                <label asp-for="@Model.cateId" class="control-label"></label>
+                <input asp-for="@Model.cateId" class="form-control" />
+                <span asp-validation-for="@Model.cateId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ModifiedDate" class="control-label"></label>
-                <input asp-for="ModifiedDate" class="form-control" />
-                <span asp-validation-for="ModifiedDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Status" class="control-label"></label>
-                <input asp-for="Status" class="form-control" />
-                <span asp-validation-for="Status" class="text-danger"></span>
-            </div>
+                <label asp-for="@Model.files" class="control-label"></label>
+                <input asp-for="@Model.files" class="form-control" />
+                <span asp-validation-for="@Model.files" class="text-danger"></span>
+            </div>*@
+          <div class="form-group">
+            <label asp-for="@Model.cateId" class="control-label"></label>
+            <input asp-for="@Model.cateId" class="form-control" readonly value="@ViewData["CateId"]" />
+            <span asp-validation-for="@Model.cateId" class="text-danger"></span>
+          </div>
+          <div class="form-group">
+            <textarea  class="form-control" name="dd">hehee</textarea>
+          </div>
+            <partial name="_CookStepPartial"></partial>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
