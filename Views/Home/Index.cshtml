@@ -39,12 +39,12 @@
 
 <h2 class="text-main mt-5 fw-normal">Món ăn mới nhất </h2>
 <div class="row">
-  <div class="col-8 p-0 ">
+  <div class="col-md-8 col-sm-12 p-0 ">
     <div class="container-fluid">
       <div class="row">
         @for (int i = 0; i <= 3; i++)
         {
-          <div class="col-6 ps-0">
+          <div class="col-sm-6 ps-0">
             <div class="border">
               <div class="recipe-img rounded bg-img" style="background-image:url('/img/monan2.jpg')"></div>
               <div class="py-3 px-2 bg-white">
@@ -57,17 +57,15 @@
               <i class="fa-solid fa-arrow-right"></i>
             </a>
           </div>
-          if (i == 1)
-          {
-            <div class="w-100"></div>
-          }
         }
       </div>
 
     </div>
   </div>
-  <div class="col-4 border p-0 hot-recipe-rectangle position-relative">
-    <div class="w-100 h-100 rounded" style="background:url('@model1.ImagePath') center no-repeat"></div>
+  <div class="col-md-4 col-sm-12 p-0 border position-relative d-none d-sm-block" style="max-height: 700px;">
+    <div class="w-100 h-100 rounded d-flex justify-content-center overflow-hidden" >
+      <img class="" src="@model1.ImagePath"  />
+    </div>
     <h3 class="position-absolute top-50 text-light ms-3 w-75">Nhìn 1 lần cũng biết làm</h3>
     <a class="btn btn-light position-absolute bottom-0 end-0">
       Xem chi tiết
@@ -80,7 +78,7 @@
 <div class="row">
   @for (int i = 1; i <= 3; i++)
   {
-    <div class="col-4">
+    <div class="col-sm-6 col-md-4">
       <div class="border">
         <div class="post-img rounded bg-img" style="background-image:url('/img/monan.jpg')"></div>
         <div class="px-2 py-3 bg-white">

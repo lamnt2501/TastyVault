@@ -73,7 +73,8 @@ namespace TastyVault.Controllers
       {
         if (r.Key.Contains("cs"))
         {
-          v += r.Key + ": " + r.Value + "\n";
+          var  a = r.Key.Substring(r.Key.IndexOf('s')+1);
+          v += r.Key + ": " + r.Value + $" {a}\n";
         }
       }
         return Content(v);
