@@ -88,3 +88,13 @@ body {
 .category-link{
   border-radius: 32px;
 }
+
+/*làm thanh hr chắn button của form đăng nhập đăng ký*/
+.hr-40{
+  width: 40%
+}
+
+.hr-text-center{
+  left: 50%;
+  transform: translate(-50%,-56%)
+}

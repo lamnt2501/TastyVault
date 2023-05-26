@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using TastyVault.Models;
+using TastyVault.Service.Mail;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,7 +18,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
   options.UseSqlServer(connectionString);
 });
 builder.Services.AddRazorPages();
-builder.Services.AddIdentity<AppUser,IdentityRole>().AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
+builder.Services.AddIdentity<AppUser,IdentityRole>().AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders().AddDefaultUI();
 builder.Services.Configure<IdentityOptions>(options =>
 {
   options.Password.RequireDigit = false; 
@@ -34,10 +36,12 @@ builder.Services.Configure<IdentityOptions>(options =>
         "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
   options.User.RequireUniqueEmail = true;
 
-  options.SignIn.RequireConfirmedEmail = true;   
+  options.SignIn.RequireConfirmedEmail = false;   
   options.SignIn.RequireConfirmedPhoneNumber = false;
 });
-
+builder.Services.AddOptions();
+builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailSettings"));
+builder.Services.AddTransient<IEmailSender,SendMailService>();
 
 var app = builder.Build();
 

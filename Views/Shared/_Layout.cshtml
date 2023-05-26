@@ -55,15 +55,17 @@
 
       <div class="col-10 px-0 content-wrap">
         <header class="header-wrap clearfix"> 
+          
+            @await Html.PartialAsync("_LoginPartial")
           @* khi người dùng đã đăng nhập*@
-          <div class="dropdown" style="background: url('/img/monan.jpg') center no-repeat">
+         @* <div class="dropdown" style="background: url('/img/monan.jpg') center no-repeat">
             <button class="btn btn-secondary avt-wrap rounded-circle float-end my-2 me-2" style="background: url('/img/monan.jpg') center no-repeat" data-bs-toggle="dropdown" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             </button>
             <div class="dropdown-menu p-0" aria-labelledby="dropdownMenuButton">
               <a class="dropdown-item" href="#">Trang cá nhân</a>
               <a class="dropdown-item text-danger" href="#">Đăng xuất</a>
             </div>
-          </div>
+          </div>*@
         </header>
 
         <main role="main" class="pb-3 bg-main">
