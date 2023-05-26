@@ -69,12 +69,14 @@ namespace TastyVault.Controllers
     public async Task<IActionResult> Create(RecipeModel? recipeModel)
     {
       string v = "";
+      
       var errors = ModelState.Values.SelectMany(v => v.Errors);
       foreach (var e in errors)
       {
         v += e.ErrorMessage + "\n";
       }
-      return Content(ModelState.IsValid.ToString() + "\n" + v);
+      //return Content(ModelState.IsValid.ToString() + "\n" + v);
+      return Content(User.Identity.Name);
       if (ModelState.IsValid)
       {
         v += _context.Recipes.Count() + " ";

@@ -2,7 +2,7 @@
 
 namespace TastyVault.Models
 {
-  public class AppUser : IdentityUser<int>
+  public class AppUser : IdentityUser
   {
   }
 }

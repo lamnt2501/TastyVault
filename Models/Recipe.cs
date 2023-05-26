@@ -18,8 +18,8 @@ namespace TastyVault.Models
     [Range(0,1)]
     public int Status { set; get; } = 1;
 
-    public int? UserId { get; set; } 
+    public string? UserId { get; set; } 
     [ForeignKey("UserId")]
-    public AppUser User { get; set; }
+    public AppUser? User { get; set; }
   }
 }
