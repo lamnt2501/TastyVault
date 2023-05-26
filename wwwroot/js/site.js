@@ -53,7 +53,6 @@ const AddIngredient = () => {
     option.setAttribute("value", i.Id);
     option.innerText = i.Name;
     select.appendChild(option);
-  
   });
 
   const label2 = document.createElement("label");

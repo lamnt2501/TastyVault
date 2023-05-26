@@ -21,6 +21,16 @@ body {
 
 .bg-main {
   background-color: var(--bgcolor);
+  color: black;
+}
+
+.bg-prime {
+  background-color: var(--primary);
+  color: white;
+}
+
+.bg-second{
+  background-color: var(--secondary)
 }
 
 .slider {

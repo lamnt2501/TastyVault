@@ -24,7 +24,7 @@
           <li class="nav-item">
             <a class="nav-link text-sub" asp-area="" asp-controller="Home" asp-action="Index">Trang chủ</a>
           </li>
-          <li class="nav-item">         
+          <li class="nav-item">
             <a class="nav-link text-sub" asp-area="" asp-controller="Categories" asp-action="Index">Mục lục món ăn</a>
           </li>
         </ul>
@@ -54,17 +54,29 @@
       </div>
 
       <div class="col-10 px-0 content-wrap">
-        <header class="header-wrap clearfix"> 
-          
-            @await Html.PartialAsync("_LoginPartial")
+        <header class="header-wrap clearfix">
+
+          <ul class="nav float-start">
+            <li class="nav-item">
+              <a class="nav-link" asp-action="create" asp-controller="Categories">Tạo danh mục</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" asp-action="create" asp-controller="Ingredients">Tạo nguyên liệu</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" asp-action="create" asp-controller="Recipes">Tạo công thức</a>
+            </li>
+          </ul>
+
+          @await Html.PartialAsync("_LoginPartial")
           @* khi người dùng đã đăng nhập*@
-         @* <div class="dropdown" style="background: url('/img/monan.jpg') center no-repeat">
-            <button class="btn btn-secondary avt-wrap rounded-circle float-end my-2 me-2" style="background: url('/img/monan.jpg') center no-repeat" data-bs-toggle="dropdown" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            </button>
-            <div class="dropdown-menu p-0" aria-labelledby="dropdownMenuButton">
-              <a class="dropdown-item" href="#">Trang cá nhân</a>
-              <a class="dropdown-item text-danger" href="#">Đăng xuất</a>
-            </div>
+          @* <div class="dropdown" style="background: url('/img/monan.jpg') center no-repeat">
+          <button class="btn btn-secondary avt-wrap rounded-circle float-end my-2 me-2" style="background: url('/img/monan.jpg') center no-repeat" data-bs-toggle="dropdown" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          </button>
+          <div class="dropdown-menu p-0" aria-labelledby="dropdownMenuButton">
+          <a class="dropdown-item" href="#">Trang cá nhân</a>
+          <a class="dropdown-item text-danger" href="#">Đăng xuất</a>
+          </div>
           </div>*@
         </header>
 
