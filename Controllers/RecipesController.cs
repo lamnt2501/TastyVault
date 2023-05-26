@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -12,10 +13,13 @@ namespace TastyVault.Controllers
   public class RecipesController : Controller
   {
     private readonly AppDbContext _context;
-
-    public RecipesController(AppDbContext context)
+    private readonly UserManager<AppUser> _userManager;
+    private readonly IWebHostEnvironment _webHostEnvironment;
+    public RecipesController(AppDbContext context, UserManager<AppUser> userManager, IWebHostEnvironment webHostEnvironment)
     {
       _context = context;
+      _userManager = userManager;
+      _webHostEnvironment = webHostEnvironment;
     }
 
     // GET: Recipes
@@ -69,23 +73,64 @@ namespace TastyVault.Controllers
     public async Task<IActionResult> Create(RecipeModel? recipeModel)
     {
       string v = "";
-      
-      var errors = ModelState.Values.SelectMany(v => v.Errors);
-      foreach (var e in errors)
-      {
-        v += e.ErrorMessage + "\n";
-      }
-      //return Content(ModelState.IsValid.ToString() + "\n" + v);
-      return Content(User.Identity.Name);
+      //var errors = ModelState.Values.SelectMany(v => v.Errors);
+      //foreach (var e in errors)
+      //{
+      //  v += e.ErrorMessage + "\n";
+      //}
       if (ModelState.IsValid)
       {
-        v += _context.Recipes.Count() + " ";
+        //thêm ngày tạo,update
+        recipeModel.Recipe.CreatedDate = DateTime.Now;
+        recipeModel.Recipe.ModifiedDate = DateTime.Now;
+        //thêm userid
+        recipeModel.Recipe.UserId = _userManager.GetUserId(User);
         _context.Add(recipeModel.Recipe);
-        v += _context.Recipes.Count() + " ";
         await _context.SaveChangesAsync();
-        v += _context.Recipes.Count() + " ";
-        return Content(v);
-        //return RedirectToAction(nameof(Index));
+
+        // lấy id công thức vừa thêm
+        var recipeId = (_context.Recipes.OrderBy(r=>r.Id).LastOrDefault())?.Id;
+
+        //thêm img
+        if (recipeModel.files != null)
+        {
+          foreach (var file in recipeModel.files)
+          {
+            string datetimeprefix = DateTime.Now.ToString("yyyyMMddhhmmss");
+            string path = Path.Combine(_webHostEnvironment.WebRootPath, "uploads", datetimeprefix + file.FileName);
+            using var stream = new FileStream(path, FileMode.Create);
+            file.CopyTo(stream);
+            var recipeImage = new RecipeImage();
+            recipeImage.RecipeId = recipeId;
+            recipeImage.Path = Path.Combine("uploads", datetimeprefix + file.FileName);
+            _context.Add(recipeImage);
+          }
+        }
+        await _context.SaveChangesAsync();
+
+        // thêm cookstep
+        foreach (var cs in Request.Form.Where(keyValuePair => { return keyValuePair.Key.Contains("cs"); }))
+        {
+          var cookStep = new CookStep();
+          cookStep.StepOrder = int.Parse(cs.Key.Substring(cs.Key.IndexOf("s") + 1));
+          cookStep.Description = cs.Value;
+          cookStep.RecipeId = recipeId;
+          _context.Add(cookStep);
+        }
+        await _context.SaveChangesAsync();
+
+        // thêm nguyên liệu
+        foreach (var i in Request.Form.Where(keyValuePair => { return keyValuePair.Key.StartsWith("i-"); }))
+        {
+          var recipeIngredient = new RecipeIngredient();
+          recipeIngredient.IngredientId = int.Parse(i.Value);
+          recipeIngredient.RecipeId = recipeId;
+          recipeIngredient.Quantitative = Request.Form.Where(kvp => { return kvp.Key == "qi-" + i.Key.Substring(i.Key.IndexOf('-')+1); }).FirstOrDefault().Value;
+          _context.Add(recipeIngredient);
+        }
+        await _context.SaveChangesAsync();
+
+        return RedirectToAction(nameof(Index));
       }
       return View(recipeModel);
     }
