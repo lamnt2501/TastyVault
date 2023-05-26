@@ -12,7 +12,9 @@
 <hr />
 <div class="row">
   <div class="col-12">
-    <form asp-action="Create" method="post">
+    <form asp-action="Create" method="post" enctype="multipart/form-data">
+      <input type="hidden" value="1" asp-for="@Model.Recipe.User"/> 
+
       <div asp-validation-summary="ModelOnly" class="text-danger"></div>
       <div class="form-group">
       <label asp-for="@Model.Recipe.Name" class="control-label"></label>
@@ -21,7 +23,7 @@
       </div>
       <div class="form-group">
         <label asp-for="@Model.cateId" class="control-label">Danh mục</label>
-        <select asp-for="@Model.cateId" multiple class="form-control select">
+        <select asp-for="@Model.cateId" multiple class="form-control">
           @foreach (var c in categories.Where(ct=>ct.ParentCatecoryId!=0))
           {
             <option value="@c.Id">@c.Name</option>

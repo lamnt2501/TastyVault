@@ -24,8 +24,11 @@ namespace TastyVault.Migrations
 
             modelBuilder.Entity("TastyVault.Models.AppUser", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
@@ -113,7 +116,8 @@ namespace TastyVault.Migrations
                         .IsRequired()
                         .HasColumnType("ntext");
 
-                    b.Property<int>("RecipeId")
+                    b.Property<int?>("RecipeId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<int>("StepOrder")
@@ -173,9 +177,9 @@ namespace TastyVault.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
-                    b.Property<string>("UserId")
+                    b.Property<int?>("UserId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -192,10 +196,12 @@ namespace TastyVault.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CategoryId")
+                    b.Property<int?>("CategoryId")
+                        .IsRequired()
                         .HasColumnType("int");
 
-                    b.Property<int>("RecipeId")
+                    b.Property<int?>("RecipeId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -219,7 +225,8 @@ namespace TastyVault.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("RecipeId")
+                    b.Property<int?>("RecipeId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -237,14 +244,16 @@ namespace TastyVault.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("IngredientId")
+                    b.Property<int?>("IngredientId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<string>("Quantitative")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("RecipeId")
+                    b.Property<int?>("RecipeId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.HasKey("Id");

@@ -7,6 +7,8 @@ namespace TastyVault.Models
   {
     [Key]
     public int Id { get; set; }
+    public int? RecipeId { get; set; }
+    public int? IngredientId { set; get; }
     [ForeignKey("RecipeId")]
     public Recipe Recipe { get; set; }
     [ForeignKey("IngredientId")]

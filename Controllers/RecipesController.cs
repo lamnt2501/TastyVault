@@ -19,7 +19,7 @@ namespace TastyVault.Controllers
     }
 
     // GET: Recipes
-    public async Task<IActionResult> Index(int cateId)
+    public async Task<IActionResult> Index(int? cateId)
     {
       ViewData["CategoryId"] = cateId;
       return _context.Recipes != null ?
@@ -63,16 +63,20 @@ namespace TastyVault.Controllers
       public Recipe Recipe { get; set; }
       public IFormFile[] files { get; set; }
       public int[] cateId { get; set; }
-      public List<CookStep> cookSteps { get; set; }
     }
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(RecipeModel? recipeModel)
     {
-      return Content(ModelState.IsValid.ToString());
+      string v = "";
+      var errors = ModelState.Values.SelectMany(v => v.Errors);
+      foreach (var e in errors)
+      {
+        v += e.ErrorMessage + "\n";
+      }
+      return Content(ModelState.IsValid.ToString() + "\n" + v);
       if (ModelState.IsValid)
       {
-        string v = "";
         v += _context.Recipes.Count() + " ";
         _context.Add(recipeModel.Recipe);
         v += _context.Recipes.Count() + " ";
