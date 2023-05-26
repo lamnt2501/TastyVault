@@ -19,7 +19,7 @@ namespace TastyVault.Controllers
     }
 
     // GET: Recipes
-    public async Task<IActionResult> Index(int cateId)
+    public async Task<IActionResult> Index(int? cateId)
     {
       ViewData["CategoryId"] = cateId;
       return _context.Recipes != null ?
@@ -49,6 +49,8 @@ namespace TastyVault.Controllers
     [HttpGet]
     public IActionResult Create(int cateId)
     {
+      ViewData["Categories"] = _context.Categories.ToList();
+      ViewData["Ingredients"] = _context.Ingredients.ToList();
       ViewData["CateId"] = cateId;
       return View();
     }
@@ -60,31 +62,32 @@ namespace TastyVault.Controllers
     {
       public Recipe Recipe { get; set; }
       public IFormFile[] files { get; set; }
-      public int cateId { get; set; }
-      public List<CookStep> cookSteps { get; set; }
+      public int[] cateId { get; set; }
     }
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create(RecipeModel? recipeModel,string dd)
+    public async Task<IActionResult> Create(RecipeModel? recipeModel)
     {
-      string v ="";
-
-      foreach(var r in Request.Form)
+      string v = "";
+      
+      var errors = ModelState.Values.SelectMany(v => v.Errors);
+      foreach (var e in errors)
       {
-        if (r.Key.Contains("cs"))
-        {
-          var  a = r.Key.Substring(r.Key.IndexOf('s')+1);
-          v += r.Key + ": " + r.Value + $" {a}\n";
-        }
+        v += e.ErrorMessage + "\n";
       }
-        return Content(v);
+      //return Content(ModelState.IsValid.ToString() + "\n" + v);
+      return Content(User.Identity.Name);
       if (ModelState.IsValid)
       {
-        //_context.Add(recipe);
+        v += _context.Recipes.Count() + " ";
+        _context.Add(recipeModel.Recipe);
+        v += _context.Recipes.Count() + " ";
         await _context.SaveChangesAsync();
-        return RedirectToAction(nameof(Index));
+        v += _context.Recipes.Count() + " ";
+        return Content(v);
+        //return RedirectToAction(nameof(Index));
       }
-      return View(recipeModel.Recipe);
+      return View(recipeModel);
     }
 
     // GET: Recipes/Edit/5
