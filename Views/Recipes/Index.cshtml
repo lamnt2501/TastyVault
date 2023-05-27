@@ -10,7 +10,7 @@
 <div class="bg-white rounded-3 position-relative category-recipe-index-outer" style="height:100px">
   <div class="position-absolute category-recipe-index-inner" style="width:100px;height:100px;">
     <img class="w-100 h-100 rounded-circle" src="@category.ImagePath" />
-  <h2 style="width: 200px">@category.Name</h2>
+    <h2 style="width: 200px">@category.Name</h2>
   </div>
 </div>
 @*
@@ -63,8 +63,8 @@
     </tbody>
 </table>
 *@
-<div class="row recipe-list" >
-  @foreach(var rc in recipes)
+<div class="row recipe-list">
+  @foreach (var rc in recipes)
   {
     <div class="col-sm-6 col-md-3 ps-0">
       <div class="border">
@@ -74,10 +74,13 @@
           <p class="fw-light mb-0"><i>@rc.CreatedDate.ToString("dd/MM/yyyy - HH:mm")</i></p>
         </div>
       </div>
-      <a class="btn btn-outline-dark mt-2 mb-3">
-        Xem chi tiết
-        <i class="fa-solid fa-arrow-right"></i>
-      </a>
+      <form asp-action="Details" method="get">
+        <input type="hidden" value="@rc.Id" name="id">
+        <button class="btn btn-outline-dark mt-2 mb-3">
+          Xem chi tiết
+          <i class="fa-solid fa-arrow-right"></i>
+        </button>
+      </form>
     </div>
   }
 </div>

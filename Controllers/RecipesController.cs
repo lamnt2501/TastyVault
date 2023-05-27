@@ -46,11 +46,25 @@ namespace TastyVault.Controllers
 
       var recipe = await _context.Recipes
           .FirstOrDefaultAsync(m => m.Id == id);
+     
       if (recipe == null)
       {
         return NotFound();
       }
 
+      // lấy ảnh
+      var recipeImgs = (from ri in _context.RecipeImages where ri.RecipeId == id select ri).ToList();
+      // lấy nguyên liệu
+      var recipeIngredients = (from ri in _context.RecipeIngredients where ri.RecipeId == id select ri).ToList();
+      // lấy cookstep
+      var cookSteps = (from cs in _context.CookSteps where cs.RecipeId == id select cs).ToList();
+      // lấy user viết bài
+      var user = (from u in _context.Users where u.Id == recipe.UserId select u).FirstOrDefault();
+      ViewData["RecipeOwner"] = user;
+      ViewData["RecipeImgs"] = recipeImgs;
+      ViewData["RecipeIngredients"] = recipeIngredients;
+      ViewData["CookSteps"] = cookSteps;
+      ViewData["Ingredients"] = _context.Ingredients.ToList();
       return View(recipe);
     }
 
