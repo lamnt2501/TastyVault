@@ -25,10 +25,15 @@ namespace TastyVault.Controllers
     // GET: Recipes
     public async Task<IActionResult> Index(int? cateId)
     {
-      ViewData["CategoryId"] = cateId;
-      return _context.Recipes != null ?
-                  View(await (from r in _context.Recipes from rc in _context.RecipeCategories where rc.Category.Id == cateId select r).ToListAsync()) :
-                  Problem("Entity set 'AppDbContext.Recipes'  is null.");
+      ViewData["Category"] = _context.Categories.Where(c=>c.Id == cateId).FirstOrDefault();
+      if (_context.Recipes != null)
+      {
+        ViewData["RecipeImage"] = (from img in _context.RecipeImages from rc in _context.Recipes where rc.Id == img.RecipeId select img).ToList();
+        var recipes = await (from r in _context.Recipes from rc in _context.RecipeCategories where rc.Category.Id == cateId select r).ToListAsync();
+        return View(recipes);
+
+      }
+      return Problem("Entity set 'AppDbContext.Recipes'  is null.");
     }
 
     // GET: Recipes/Details/5
@@ -41,11 +46,25 @@ namespace TastyVault.Controllers
 
       var recipe = await _context.Recipes
           .FirstOrDefaultAsync(m => m.Id == id);
+     
       if (recipe == null)
       {
         return NotFound();
       }
 
+      // lấy ảnh
+      var recipeImgs = (from ri in _context.RecipeImages where ri.RecipeId == id select ri).ToList();
+      // lấy nguyên liệu
+      var recipeIngredients = (from ri in _context.RecipeIngredients where ri.RecipeId == id select ri).ToList();
+      // lấy cookstep
+      var cookSteps = (from cs in _context.CookSteps where cs.RecipeId == id select cs).ToList();
+      // lấy user viết bài
+      var user = (from u in _context.Users where u.Id == recipe.UserId select u).FirstOrDefault();
+      ViewData["RecipeOwner"] = user;
+      ViewData["RecipeImgs"] = recipeImgs;
+      ViewData["RecipeIngredients"] = recipeIngredients;
+      ViewData["CookSteps"] = cookSteps;
+      ViewData["Ingredients"] = _context.Ingredients.ToList();
       return View(recipe);
     }
 
@@ -72,24 +91,19 @@ namespace TastyVault.Controllers
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(RecipeModel? recipeModel)
     {
-      string v = "";
-      //var errors = ModelState.Values.SelectMany(v => v.Errors);
-      //foreach (var e in errors)
-      //{
-      //  v += e.ErrorMessage + "\n";
-      //}
       if (ModelState.IsValid)
       {
         //thêm ngày tạo,update
         recipeModel.Recipe.CreatedDate = DateTime.Now;
         recipeModel.Recipe.ModifiedDate = DateTime.Now;
+
         //thêm userid
         recipeModel.Recipe.UserId = _userManager.GetUserId(User);
         _context.Add(recipeModel.Recipe);
         await _context.SaveChangesAsync();
 
         // lấy id công thức vừa thêm
-        var recipeId = (_context.Recipes.OrderBy(r=>r.Id).LastOrDefault())?.Id;
+        var recipeId = (_context.Recipes.OrderBy(r => r.Id).LastOrDefault())?.Id;
 
         //thêm img
         if (recipeModel.files != null)
@@ -125,11 +139,20 @@ namespace TastyVault.Controllers
           var recipeIngredient = new RecipeIngredient();
           recipeIngredient.IngredientId = int.Parse(i.Value);
           recipeIngredient.RecipeId = recipeId;
-          recipeIngredient.Quantitative = Request.Form.Where(kvp => { return kvp.Key == "qi-" + i.Key.Substring(i.Key.IndexOf('-')+1); }).FirstOrDefault().Value;
+          recipeIngredient.Quantitative = Request.Form.Where(kvp => { return kvp.Key == "qi-" + i.Key.Substring(i.Key.IndexOf('-') + 1); }).FirstOrDefault().Value;
           _context.Add(recipeIngredient);
         }
         await _context.SaveChangesAsync();
 
+        // thêm category cho công thức
+        foreach (var c in recipeModel.cateId)
+        {
+          var recipeCategory = new RecipeCategory();
+          recipeCategory.RecipeId = recipeId;
+          recipeCategory.CategoryId = c;
+          _context.Add(recipeCategory);
+        }
+        await _context.SaveChangesAsync();
         return RedirectToAction(nameof(Index));
       }
       return View(recipeModel);

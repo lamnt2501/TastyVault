@@ -1,12 +1,80 @@
 ﻿@model TastyVault.Models.Recipe
 
 @{
-    ViewData["Title"] = "Details";
+  ViewData["Title"] = Model.Name;
+  var user = ViewData["RecipeOwner"] as AppUser;
+  var recipeImgs = ViewData["RecipeImgs"] as List<RecipeImage>;
+  var recipeIngredients = ViewData["RecipeIngredients"] as List<RecipeIngredient>;
+  var cookSteps = (ViewData["CookSteps"] as List<CookStep>).OrderBy(c => c.StepOrder).ToList();
+  var ingredients = ViewData["Ingredients"] as List<Ingredient>;
+  var createDate = Model.CreatedDate.Day + " Tháng " + Model.CreatedDate.Month + " Năm " + Model.CreatedDate.Year;
 }
 
-<h1>Details</h1>
+<div class="container">
+  <div class="row">
+    <div class="col-5 ">
+      <h2 class="align-self-center">Cách làm @Model.Name</h2>
+      <div class="d-flex mt-5">
+        <div style="width:62px" class="">
+          <img class="mw-100 rounded-circle" src="/img/logo.png">
+        </div>
+        <div class="ms-2 mt-2">
+          <p class="m-0" style="">
+            @user.UserName
+            <br />
+            <i style="font-size:12px">Vào @createDate</i>
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="col-7">
+      <div class="recipe-img-active-wrap position-relative" style="max-width:400px">
+        <img src="\@recipeImgs[0].Path" class="w-100" />
+      </div>
 
-<div>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="container mt-5">
+  <div>
+    <h3>Mô tả</h3>
+    <p>@Model.Description</p>
+  </div>
+  <hr />
+  <div>
+    <div class="d-flex align-items-center">
+      <h3 class="">Nguyên liệu </h3>
+      <span class="ms-5 opacity-25" style="font-size:12px">Phần ăn tiêu chuẩn 4 người</span>
+    </div>
+    <div class="container">
+      @foreach (var i in recipeIngredients)
+      {
+        <div class="row">
+          <div class="col-md-2 col-4">@((from ing in ingredients where ing.Id == i.IngredientId select ing).FirstOrDefault().Name)</div>
+          <div class="col-md-10 col-6" >@i.Quantitative</div>
+        </div>
+      }
+    </div>
+  </div>
+  <hr />
+  <div>
+    <h3>Hướng dẫn chế biến</h3>
+    <div class="container">
+      @for (int i = 0; i < cookSteps.Count(); i++)
+      {
+        <div class="row mb-3">
+          <div class="col-md-2 col-4">Bước @(i + 1)</div>
+          <div class="col-md-10 col-6">@cookSteps[i].Description</div>
+        </div>
+      }
+    </div>
+  </div>
+</div>
+
+@*<div>
     <h4>Recipe</h4>
     <hr />
     <dl class="row">
@@ -46,3 +114,4 @@
     <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>
+*@  

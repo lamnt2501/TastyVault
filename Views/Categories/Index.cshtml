@@ -6,9 +6,6 @@
                           where c.ParentCatecoryId == 0
                           select c).ToList();
 }
-@*<p>
-  <a asp-action="Create">Create New</a>
-</p>*@
 
 @foreach (var pc in parentCategories)
 {
@@ -26,10 +23,6 @@
       <div class="col-sm-6 col-md-4">
         <partial name="_CategoryListItem" model="md"></partial>
       </div>
-      @*if ((i+1) % 3 == 0)
-      {
-        <div class="w-100"></div>
-      }*@
     }
   </div>
 }

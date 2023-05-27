@@ -63,9 +63,12 @@
             <li class="nav-item">
               <a class="nav-link" asp-action="create" asp-controller="Ingredients">Tạo nguyên liệu</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" asp-action="create" asp-controller="Recipes">Tạo công thức</a>
-            </li>
+            @if (User.Identity.IsAuthenticated)
+            {
+              <li class="nav-item">
+                <a class="nav-link" asp-action="create" asp-controller="Recipes">Tạo công thức</a>
+              </li>
+            }
           </ul>
 
           @await Html.PartialAsync("_LoginPartial")
