@@ -108,3 +108,17 @@ body {
   left: 50%;
   transform: translate(-50%,-56%)
 }
+
+.category-recipe-index-outer{
+  transform: translateY(50%)
+}
+
+.category-recipe-index-inner{
+   left: 50%;
+   transform: translateX(-50%);
+   top: -50%;
+}
+
+.recipe-list{
+  margin-top: 66px;
+}

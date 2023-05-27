@@ -1,15 +1,19 @@
 ﻿@model IEnumerable<TastyVault.Models.Recipe>
 
 @{
-    ViewData["Title"] = "Công thức nấu ăn";
-    
+  ViewData["Title"] = "Công thức nấu ăn";
+  var category = ViewData["Category"] as Category;
+  var recipes = Model.ToList();
+  var recipeImg = ViewData["RecipeImage"] as List<RecipeImage>;
 }
 
-<h1>@ViewData["CategoryId"]</h1>
-
-<p>
-    <a asp-action="Create" asp-route-cateId="@ViewData["CategoryId"]">Create New</a>
-</p>
+<div class="bg-white rounded-3 position-relative category-recipe-index-outer" style="height:100px">
+  <div class="position-absolute category-recipe-index-inner" style="width:100px;height:100px;">
+    <img class="w-100 h-100 rounded-circle" src="@category.ImagePath" />
+  <h2 style="width: 200px">@category.Name</h2>
+  </div>
+</div>
+@*
 <table class="table">
     <thead>
         <tr>
@@ -58,3 +62,22 @@
 }
     </tbody>
 </table>
+*@
+<div class="row recipe-list" >
+  @foreach(var rc in recipes)
+  {
+    <div class="col-sm-6 col-md-3 ps-0">
+      <div class="border">
+        <div class="recipe-img rounded bg-img" style="background-image:url('/img/monan2.jpg')"></div>
+        <div class="py-3 px-2 bg-white">
+          <p class="recipe-title mb-2 fs-5">@rc.Name</p>
+          <p class="fw-light mb-0"><i>@rc.CreatedDate.ToString("dd/MM/yyyy - HH:mm")</i></p>
+        </div>
+      </div>
+      <a class="btn btn-outline-dark mt-2 mb-3">
+        Xem chi tiết
+        <i class="fa-solid fa-arrow-right"></i>
+      </a>
+    </div>
+  }
+</div>
