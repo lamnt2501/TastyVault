@@ -22,6 +22,7 @@ body {
 .bg-main {
   background-color: var(--bgcolor);
   color: black;
+  min-height: 878px;
 }
 
 .bg-prime {
