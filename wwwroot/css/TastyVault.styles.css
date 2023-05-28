@@ -10,7 +10,9 @@
 body {
   margin: 0;
 }
-
+html{
+  scroll-behavior: smooth;
+}
 .text-main {
   color: var(--primary)
 }
@@ -124,4 +126,20 @@ body {
 
 .recipe-img-btn{
   width: 10%;
+}
+
+.to-top {
+  position: fixed;
+  bottom: 50px;
+  right: 50px;
+  animation: umbalaxibua 1s ease;
+}
+
+@keyframes umbalaxibua{
+  0%{
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(0);
+  }
 }
