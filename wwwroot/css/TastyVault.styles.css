@@ -41,8 +41,10 @@ body {
   border-color: #f4f6fc;
 }
 
-.content-wrap {
-  transform: translateX(20%);
+@media (min-width:768px){
+  .content-wrap {
+    transform: translateX(20%);
+  }
 }
 
 .carousel-control-wrap {
@@ -69,9 +71,6 @@ body {
 
 .hot-recipe-rectangle {
   margin-left: -12px
-}
-
-.hot-recipe-rectangle {
 }
 
 /**/
@@ -121,4 +120,8 @@ body {
 
 .recipe-list{
   margin-top: 66px;
+}
+
+.recipe-img-btn{
+  width: 10%;
 }
