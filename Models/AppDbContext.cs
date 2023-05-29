@@ -26,5 +26,7 @@ namespace TastyVault.Models
     public DbSet<RecipeCategory> RecipeCategories { get; set; }  
     public DbSet<RecipeImage> RecipeImages { get; set; } 
     public DbSet<RecipeIngredient> RecipeIngredients { get; set; }
+    public DbSet<Menus> Menus {get; set;}
+    public DbSet<MenuRecipes> MenuRecipes {get; set;}
   }
 }
