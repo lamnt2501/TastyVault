@@ -63,7 +63,7 @@
             <li class="nav-item">
               <a class="nav-link" asp-action="create" asp-controller="Ingredients">Tạo nguyên liệu</a>
             </li>
-            @if (User.Identity.IsAuthenticated)
+            @if (User.Identity != null && User.Identity.IsAuthenticated)
             {
               <li class="nav-item">
                 <a class="nav-link" asp-action="create" asp-controller="Recipes">Tạo công thức</a>

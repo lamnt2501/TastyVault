@@ -3,23 +3,22 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TastyVault.Models
 {
-  public class Recipe
+  public class PostComment
   {
     [Key]
     public int Id { get; set; }
-    [Required]
-    [StringLength(200)]
-    public string Name { get; set; }
+    public string UserId { get; set; }
+    public int PostId { get; set; }
+    [ForeignKey("UserId")]
+    public AppUser User { get; set; }
+    [ForeignKey("PostId")]
+    public Post? Post { get; set; }
     [Required]
     [Column(TypeName ="ntext")]
-    public string Description { get; set; }
+    public string Content { get; set; }
     public DateTime CreatedDate { get; set; }
     public DateTime ModifiedDate { get; set;}
     [Range(0,1)]
     public int Status { set; get; } = 1;
-
-    public string? UserId { get; set; } 
-    [ForeignKey("UserId")]
-    public AppUser? User { get; set; }
   }
 }
