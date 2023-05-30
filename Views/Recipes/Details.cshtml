@@ -2,12 +2,23 @@
 
 @{
   ViewData["Title"] = Model.Name;
+  var dayOfWeeak = new string[]
+  {
+    "Chủ Nhật",
+    "Thứ Hai" ,
+    "Thứ Ba" ,
+    "Thứ Tư" ,
+    "Thứ Năm" ,
+    "Thứ Sáu" ,
+    "Thứ Bảy" ,
+  };
   var user = ViewData["RecipeOwner"] as AppUser;
   var recipeImgs = ViewData["RecipeImgs"] as List<RecipeImage>;
   var recipeIngredients = ViewData["RecipeIngredients"] as List<RecipeIngredient>;
   var cookSteps = (ViewData["CookSteps"] as List<CookStep>).OrderBy(c => c.StepOrder).ToList();
   var ingredients = ViewData["Ingredients"] as List<Ingredient>;
-  var createDate = Model.CreatedDate.Day + " Tháng " + Model.CreatedDate.Month + " Năm " + Model.CreatedDate.Year;
+  var createDate = "Vào " + dayOfWeeak[(int)Model.CreatedDate.DayOfWeek] + ", " + Model.CreatedDate.Day + " Tháng " + Model.CreatedDate.Month + ", " + Model.CreatedDate.Year + " Lúc " +
+                   Model.CreatedDate.ToString("HH:mm");
 
   var jsonImage = Newtonsoft.Json.JsonConvert.SerializeObject(recipeImgs);
 }
@@ -15,16 +26,15 @@
 <div class="container">
   <div class="row justify-content-evenly">
     <div class="col-md-5 col-sm-12 d-flex flex-column justify-content-evenly">
-      <h2 class="align-self-center text-center">Cách làm @Model.Name</h2>
+      <h2 class="align-self-center text-center fw-light">Cách làm <strong>@Model.Name</strong></h2>
       <div class="d-flex my-5 justify-content-sm-center">
         <div style="width:62px" class="">
           <img class="mw-100 rounded-circle" src="/img/logo.png">
         </div>
         <div class="ms-2 mt-2">
-          <p class="m-0" style="">
+          <p class="m-0 fs-5  d-flex flex-column" style="">
             @user.UserName
-            <br />
-            <i style="font-size:12px">Vào @createDate</i>
+            <i class="" style="font-size:12px">@Html.Raw(createDate)</i>
           </p>
         </div>
       </div>
@@ -59,7 +69,7 @@
 
 
 
-<div class="container mt-5 justify-content-center">
+<div class="container-fluid mt-5 justify-content-center position-relative">
   <div class="row justify-content-center">
     <div class="w-75">
       <div>
@@ -98,3 +108,5 @@
     </div>
   </div>
 </div>
+
+

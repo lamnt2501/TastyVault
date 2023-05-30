@@ -4,10 +4,11 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>@ViewData["Title"] - TastyVault</title>
-  <script src="https://kit.fontawesome.com/d850c3fff6.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
   <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
   <link rel="stylesheet" href="~/css/TastyVault.styles.css" asp-append-version="true" />
+  <script src="https://cdn.ckeditor.com/ckeditor5/38.0.1/classic/ckeditor.js"></script>
 </head>
 <body>
 
@@ -32,13 +33,13 @@
         <p class="m-0 mt-2 text-main"><strong>BÀI VIẾT</strong></p>
         <ul class="navbar-nav ms-2">
           <li class="nav-item">
-            <a class="nav-link text-sub" asp-area="" asp-controller="Home" asp-action="Index">Tạo bài viết</a>
+            <a class="nav-link text-sub" asp-action="create" asp-controller="Posts">Tạo bài viết</a>
           </li>
           <li class="nav-item">
             <a class="nav-link text-sub" asp-area="" asp-controller="Home" asp-action="Privacy">Bài viết của bạn</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-sub" asp-area="" asp-controller="Home" asp-action="Privacy">Blog chia sẻ</a>
+            <a class="nav-link text-sub" asp-area="" asp-controller="Posts" asp-action="index">Blog chia sẻ</a>
           </li>
         </ul>
 
@@ -63,7 +64,7 @@
             <li class="nav-item">
               <a class="nav-link" asp-action="create" asp-controller="Ingredients">Tạo nguyên liệu</a>
             </li>
-            @if (User.Identity.IsAuthenticated)
+            @if (User.Identity != null && User.Identity.IsAuthenticated)
             {
               <li class="nav-item">
                 <a class="nav-link" asp-action="create" asp-controller="Recipes">Tạo công thức</a>
@@ -97,6 +98,8 @@
       </div>
     </div>
   </div>
+
+  <a href="#" class="to-top btn d-none text-white" style="background-color: #b0d4b8"><i class="fa-solid fa-arrow-up"></i></a>
 
   <script src="~/lib/jquery/dist/jquery.min.js"></script>
   <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

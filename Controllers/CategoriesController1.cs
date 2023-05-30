@@ -74,7 +74,8 @@ namespace TastyVault.Controllers
         }
         if (categoryModel.FileUpload != null && categoryModel.FileUpload.Length > 0)
         {
-          var path = Path.Combine(_webHostEnvironment.WebRootPath, "uploads", categoryModel.FileUpload.FileName);
+          string datetimeprefix = DateTime.Now.ToString("yyyyMMddhhmmss");
+          var path = Path.Combine(_webHostEnvironment.WebRootPath, "uploads",datetimeprefix+ categoryModel.FileUpload.FileName);
           using var stream = new FileStream(path, FileMode.Create);
           categoryModel.FileUpload.CopyTo(stream);
           categoryModel.Category.ImagePath = Path.Combine("uploads", categoryModel.FileUpload.FileName);
