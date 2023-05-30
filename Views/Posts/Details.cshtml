@@ -22,6 +22,7 @@
   var createDate = "Vào " + dayOfWeeak[(int)Model.CreatedDate.DayOfWeek] + ", " + Model.CreatedDate.Day + " Tháng " + Model.CreatedDate.Month + ", " + Model.CreatedDate.Year + " Lúc " +
     Model.CreatedDate.ToString("HH:mm");
 }
+<h1>@isSignin</h1>
 <input type="hidden" value="@isSignin" id="isSignin" />
 <div style="max-height: 400px;overflow:hidden" class="position-relative">
   <img src="/@postImg.ImagePath" class="" />
@@ -31,40 +32,54 @@
 </div>
 
 <div class="row justify-content-center">
-
   <div class="col-12 col-sm-8">
-
-    <div class="my-5">
-
+    <div class="btn-group w-100 text-center mt-4">
+      <a class="btn btn-outline-dark flex-1"><i class="fa-regular fa-heart"></i> @reactionCount</a>
+      <a href="#comment" class="btn btn-outline-dark flex-1"><i class="fa-regular fa-comment"></i> @comments.Count()</a>
+      <a class="btn btn-outline-dark flex-1"><i class="fa-regular fa-share-from-square"></i> Chia sẻ</a>
+    </div>
+    <div class="mt-5 mb-4">
       <div class="clearfix">
-
         <div class="float-start">
-
           <div class="d-flex justify-content-sm-center">
-
             <div style="width:62px" class="">
               <img class="mw-100 rounded-circle" src="/img/logo.png">
             </div>
-
             <div class="ms-2 mt-2">
               <p class="m-0 fs-5  d-flex flex-column" style="">
                 @postOwner.UserName
                 <i class="" style="font-size:12px">@createDate</i>
               </p>
             </div>
-
           </div>
-
         </div>
       </div>
     </div>
-    <div class="btn-group float-xl-end w-100 text-center">
-      <a class="btn btn-outline-dark flex-1"><i class="fa-regular fa-heart"></i> @reactionCount</a>
-      <a class="btn btn-outline-dark flex-1"><i class="fa-regular fa-comment"></i> Bình luận</a>
-      <a class="btn btn-outline-dark flex-1"><i class="fa-regular fa-share-from-square"></i> Chia sẻ</a>
-    </div>
+
 
     @Html.Raw(Model.Content)
+
+    <div>
+      <h3 id="comment">Bình luận</h3>
+      <div class="row">
+        <div class="col-2">
+          <div style="width:50px">
+            <img src="/img/logo.png" class="w-100 rounded-circle" />
+          </div>
+
+        </div>
+        <div class="col-10">
+          <div>
+            <form asp-action="">
+              <div class="form-group">
+                
+                <input class="form-control"/>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
