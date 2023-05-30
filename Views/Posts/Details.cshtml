@@ -1,0 +1,76 @@
+﻿@model TastyVault.Models.Post
+
+@{
+  ViewData["Title"] = "Details";
+  var postImg = ViewData["PostImg"] as PostImage;
+  var comments = ViewData["Comments"] as List<PostComment>;
+  var commentUsers = ViewData["CommentUsers"] as List<AppUser>;
+  var reactionCount = ViewData["Reactions"] as int?;
+  var isSignin = User.Identity?.IsAuthenticated;
+  var postOwner = ViewData["PostOwner"] as AppUser;
+  var dayOfWeeak = new string[]
+  {
+    "Chủ Nhật",
+    "Thứ Hai" ,
+    "Thứ Ba" ,
+    "Thứ Tư" ,
+    "Thứ Năm" ,
+    "Thứ Sáu" ,
+    "Thứ Bảy" ,
+  };
+
+  var createDate = "Vào " + dayOfWeeak[(int)Model.CreatedDate.DayOfWeek] + ", " + Model.CreatedDate.Day + " Tháng " + Model.CreatedDate.Month + ", " + Model.CreatedDate.Year + " Lúc " +
+    Model.CreatedDate.ToString("HH:mm");
+}
+<input type="hidden" value="@isSignin" id="isSignin" />
+<div style="max-height: 400px;overflow:hidden" class="position-relative">
+  <img src="/@postImg.ImagePath" class="" />
+  <h3 class="position-absolute top-50 start-50 text-center text" style="transform:translateX(-50%);text-shadow: 2px 2px #fff">
+    @Model.Title
+  </h3>
+</div>
+
+<div class="row justify-content-center">
+
+  <div class="col-12 col-sm-8">
+
+    <div class="my-5">
+
+      <div class="clearfix">
+
+        <div class="float-start">
+
+          <div class="d-flex justify-content-sm-center">
+
+            <div style="width:62px" class="">
+              <img class="mw-100 rounded-circle" src="/img/logo.png">
+            </div>
+
+            <div class="ms-2 mt-2">
+              <p class="m-0 fs-5  d-flex flex-column" style="">
+                @postOwner.UserName
+                <i class="" style="font-size:12px">@createDate</i>
+              </p>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <div class="btn-group float-xl-end w-100 text-center">
+      <a class="btn btn-outline-dark flex-1"><i class="fa-regular fa-heart"></i> @reactionCount</a>
+      <a class="btn btn-outline-dark flex-1"><i class="fa-regular fa-comment"></i> Bình luận</a>
+      <a class="btn btn-outline-dark flex-1"><i class="fa-regular fa-share-from-square"></i> Chia sẻ</a>
+    </div>
+
+    @Html.Raw(Model.Content)
+  </div>
+</div>
+
+<script>
+  const imgs = document.querySelectorAll("img");
+  imgs.forEach(i => {
+    i.style.width = "100%";
+  })
+</script>

@@ -17,7 +17,7 @@ const AddCookStep = () => {
   // tạo input
   const inputStepDes = document.createElement("textarea");
   inputStepDes.classList.add("form-control");
-  inputStepDes.setAttribute("name","cs" + ++cookStepList.childElementCount)
+  inputStepDes.setAttribute("name", "cs" + ++cookStepList.childElementCount)
 
   // thêm các phần tử vào trong form group
   formGroup.appendChild(label);
@@ -69,6 +69,68 @@ const AddIngredient = () => {
 
   ingredientList.appendChild(formGroup);
 }
+
 const DeleteIngredient = () => {
   ingredientList.removeChild(ingredientList.lastChild);
 }
+let jsonImgs;
+if (document.querySelector(".jsonImg") != null) {
+  jsonImgs = JSON.parse(document.querySelector(".jsonImg").value);
+}
+const activerecipeImg = document.querySelector(".recipe-img-active-wrap img");
+const recipeImgList = document.querySelectorAll(".recipe-img-item img");
+
+recipeImgList.forEach(recipeImgItem => {
+  recipeImgItem.addEventListener("click", () => activerecipeImg.src = recipeImgItem.src);
+});
+
+const recipeImgPrev = document.querySelector(".recipe-img-prev");
+const recipeImgNext = document.querySelector(".recipe-img-next");
+
+const repalcerecipeImgSrc = () => {
+  for (let i = 0; i < (recipeImgList.length > 3 ? 3 : recipeImgList.length); i++) {
+    recipeImgList[i].src = "http://localhost:5271/" + jsonImgs[i].Path;
+  }
+}
+recipeImgPrev?.addEventListener("click", () => {
+  const lastImg = jsonImgs[jsonImgs.length - 1];
+  for (let i = jsonImgs.length - 1; i > 0; i--) {
+    jsonImgs[i] = jsonImgs[i - 1];
+  }
+  jsonImgs[0] = lastImg;;
+  console.log(jsonImgs)
+  repalcerecipeImgSrc();
+});
+
+recipeImgNext?.addEventListener("click", () => {
+  const firstImg = jsonImgs[0];
+  for (let i = 0; i < jsonImgs.length - 1; i++) {
+    jsonImgs[i] = jsonImgs[i + 1];
+  }
+  jsonImgs[jsonImgs.length - 1] = firstImg;;
+
+  repalcerecipeImgSrc();
+});
+
+setInterval(() => {
+  for (let i = 0; i < jsonImgs?.length; i++) {
+    if (activerecipeImg.src.includes(jsonImgs[i].Path.replace("\\", "/"))) {
+      activerecipeImg.src = "http://localhost:5271/" + jsonImgs[i < jsonImgs.length - 1 ? (i + 1) : 0].Path;
+      break;
+    }
+  }
+}, 4000);
+
+const toTopBtn = document.querySelector(".to-top");
+window.onscroll = () => {
+  if (scrollY >= 200) {
+    toTopBtn.classList.remove("d-none");
+  }
+  else {
+    toTopBtn.classList.add("d-none");
+  }
+}
+
+
+
+

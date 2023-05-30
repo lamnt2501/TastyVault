@@ -1,0 +1,61 @@
+﻿@model TastyVault.Models.Post
+@{
+  ViewData["Title"] = "Tạo bài viết";
+}
+
+<h1 class="mb-5">Tạo bài viết mới</h1>
+
+<div class="row">
+  <div class="col-12">
+    <form class="row justify-content-center" asp-action="Create" asp-controller="Posts" enctype="multipart/form-data">
+      <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+      <input type="hidden" asp-for="UserId" value="default" />
+      <div class="col-sm-8 text-center">
+        <div class="form-group">
+          <label for="post-img" class="control-label">Ảnh đại diện bài viết</label>
+          <input id="post-img" name="file" class="form-control" type="file">
+        </div>
+        <div class="form-group mt-3">
+          <label asp-for="Title" class="control-label">Tiêu đề</label>
+          <textarea asp-for="Title" class="form-control"></textarea>
+          <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+        <div class="form-group mt-3">
+          <label asp-for="Content" class="control-label">Nội dung</label>
+          @*<input asp-for="Content" class="form-control" />*@
+          <textarea asp-for="Content" id="editor"></textarea>
+          <span asp-validation-for="Content" class="text-danger"></span>
+        </div>
+        @*sau viết lại thêm nguyên liệu công cho công thức như này*@
+        @*<div class="form-group">
+        <label asp-for="UserId" class="control-label"></label>
+        <select asp-for="UserId" class ="form-control" asp-items="ViewBag.UserId"></select>
+        </div>*@
+        <div class="form-group">
+          <input type="submit" value="Đăng" class="btn btn-outline-success w-75 form-control mt-3" />
+        </div>
+      </div>
+    </form>
+    <div class="text-center">
+      <input type="submit" value="Hủy" class="btn w-50 btn-outline-danger mt-3" />
+    </div>
+  </div>
+</div>
+
+<div>
+  <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+  @{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+  }
+}
+
+<script>
+  ClassicEditor
+    .create(document.querySelector('#editor'))
+    .catch(error => {
+      console.error(error);
+    });
+</script>

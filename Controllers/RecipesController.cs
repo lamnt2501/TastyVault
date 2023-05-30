@@ -25,13 +25,17 @@ namespace TastyVault.Controllers
     // GET: Recipes
     public async Task<IActionResult> Index(int? cateId)
     {
+      if(cateId == null)
+      {
+        ViewData["RecipeImage"] = _context.RecipeImages.ToList();
+        return View(_context.Recipes.ToList());
+      }
       ViewData["Category"] = _context.Categories.Where(c=>c.Id == cateId).FirstOrDefault();
       if (_context.Recipes != null)
       {
         ViewData["RecipeImage"] = (from img in _context.RecipeImages from rc in _context.Recipes where rc.Id == img.RecipeId select img).ToList();
         var recipes = await (from r in _context.Recipes from rc in _context.RecipeCategories where rc.Category.Id == cateId select r).ToListAsync();
         return View(recipes);
-
       }
       return Problem("Entity set 'AppDbContext.Recipes'  is null.");
     }
@@ -91,7 +95,9 @@ namespace TastyVault.Controllers
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(RecipeModel? recipeModel)
     {
+
       if (ModelState.IsValid)
+
       {
         //thêm ngày tạo,update
         recipeModel.Recipe.CreatedDate = DateTime.Now;

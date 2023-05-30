@@ -2,116 +2,111 @@
 
 @{
   ViewData["Title"] = Model.Name;
+  var dayOfWeeak = new string[]
+  {
+    "Chủ Nhật",
+    "Thứ Hai" ,
+    "Thứ Ba" ,
+    "Thứ Tư" ,
+    "Thứ Năm" ,
+    "Thứ Sáu" ,
+    "Thứ Bảy" ,
+  };
   var user = ViewData["RecipeOwner"] as AppUser;
   var recipeImgs = ViewData["RecipeImgs"] as List<RecipeImage>;
   var recipeIngredients = ViewData["RecipeIngredients"] as List<RecipeIngredient>;
   var cookSteps = (ViewData["CookSteps"] as List<CookStep>).OrderBy(c => c.StepOrder).ToList();
   var ingredients = ViewData["Ingredients"] as List<Ingredient>;
-  var createDate = Model.CreatedDate.Day + " Tháng " + Model.CreatedDate.Month + " Năm " + Model.CreatedDate.Year;
-}
+  var createDate = "Vào " + dayOfWeeak[(int)Model.CreatedDate.DayOfWeek] + ", " + Model.CreatedDate.Day + " Tháng " + Model.CreatedDate.Month + ", " + Model.CreatedDate.Year + " Lúc " +
+                   Model.CreatedDate.ToString("HH:mm");
 
+  var jsonImage = Newtonsoft.Json.JsonConvert.SerializeObject(recipeImgs);
+}
+<input type="hidden" class="jsonImg" value="@jsonImage" />
 <div class="container">
-  <div class="row">
-    <div class="col-5 ">
-      <h2 class="align-self-center">Cách làm @Model.Name</h2>
-      <div class="d-flex mt-5">
+  <div class="row justify-content-evenly">
+    <div class="col-md-5 col-sm-12 d-flex flex-column justify-content-evenly">
+      <h2 class="align-self-center text-center fw-light">Cách làm <strong>@Model.Name</strong></h2>
+      <div class="d-flex my-5 justify-content-sm-center">
         <div style="width:62px" class="">
           <img class="mw-100 rounded-circle" src="/img/logo.png">
         </div>
         <div class="ms-2 mt-2">
-          <p class="m-0" style="">
+          <p class="m-0 fs-5  d-flex flex-column" style="">
             @user.UserName
-            <br />
-            <i style="font-size:12px">Vào @createDate</i>
+            <i class="" style="font-size:12px">@Html.Raw(createDate)</i>
           </p>
         </div>
       </div>
-    </div>
-    <div class="col-7">
-      <div class="recipe-img-active-wrap position-relative" style="max-width:400px">
-        <img src="\@recipeImgs[0].Path" class="w-100" />
+      <div class="btn-group mb-5">
+        <button class="btn btn-outline-dark"><i class="fa-regular fa-bookmark"></i> Lưu</button>
+        <button class="btn btn-outline-dark"><i class="fa-regular fa-share-from-square"></i> Chia sẻ</button>
       </div>
-
     </div>
-  </div>
-</div>
-
-
-
-<div class="container mt-5">
-  <div>
-    <h3>Mô tả</h3>
-    <p>@Model.Description</p>
-  </div>
-  <hr />
-  <div>
-    <div class="d-flex align-items-center">
-      <h3 class="">Nguyên liệu </h3>
-      <span class="ms-5 opacity-25" style="font-size:12px">Phần ăn tiêu chuẩn 4 người</span>
-    </div>
-    <div class="container">
-      @foreach (var i in recipeIngredients)
-      {
-        <div class="row">
-          <div class="col-md-2 col-4">@((from ing in ingredients where ing.Id == i.IngredientId select ing).FirstOrDefault().Name)</div>
-          <div class="col-md-10 col-6" >@i.Quantitative</div>
+    <div class="col-md-6 col-sm-12">
+      <div class="recipe-img-active-wrap w-100 text-center">
+        <img src="\@recipeImgs[0].Path" class="w-100" style="max-width:400px" />
+      </div>
+      <div class="mt-3">
+        <div class="d-flex justify-content-between recipe-img-list">
+          <button class="btn btn-outline-dark recipe-img-btn recipe-img-prev">
+            <i class="fa-solid fa-arrow-left"></i>
+          </button>
+          @for (int i = 0; i < (recipeImgs.Count() > 3 ? 3 : recipeImgs.Count()); i++)
+          {
+            <div class="w-25 text-center recipe-img-item">
+              <img class="w-100 border" style="max-width: 120px" src="\@recipeImgs[i].Path" />
+            </div>
+          }
+          <button class="btn btn-outline-dark recipe-img-btn recipe-img-next">
+            <i class="fa-solid fa-arrow-right"></i>
+          </button>
         </div>
-      }
-    </div>
-  </div>
-  <hr />
-  <div>
-    <h3>Hướng dẫn chế biến</h3>
-    <div class="container">
-      @for (int i = 0; i < cookSteps.Count(); i++)
-      {
-        <div class="row mb-3">
-          <div class="col-md-2 col-4">Bước @(i + 1)</div>
-          <div class="col-md-10 col-6">@cookSteps[i].Description</div>
-        </div>
-      }
+      </div>
     </div>
   </div>
 </div>
 
-@*<div>
-    <h4>Recipe</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CreatedDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CreatedDate)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ModifiedDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ModifiedDate)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Status)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Status)
-        </dd>
-    </dl>
+
+
+<div class="container-fluid mt-5 justify-content-center position-relative">
+  <div class="row justify-content-center">
+    <div class="w-75">
+      <div>
+        <h3>Mô tả</h3>
+        <p>@Html.Raw(Model.Description)</p>
+      </div>
+      <hr />
+      <div>
+        <div class="d-flex align-items-center">
+          <h3 class="">Nguyên liệu </h3>
+          <span class="ms-5 opacity-25" style="font-size:12px">Phần ăn tiêu chuẩn 4 người</span>
+        </div>
+        <div class="container">
+          @foreach (var i in recipeIngredients)
+          {
+            <div class="row">
+              <div class="col-md-10 col-7">@((from ing in ingredients where ing.Id == i.IngredientId select ing).FirstOrDefault().Name)</div>
+              <div class="col-md-2 col-3">@i.Quantitative</div>
+            </div>
+          }
+        </div>
+      </div>
+      <hr />
+      <div>
+        <h3>Hướng dẫn chế biến</h3>
+        <div class="container">
+          @for (int i = 0; i < cookSteps.Count(); i++)
+          {
+            <div class="row mb-3">
+              <div class="col-md-2 col-3">Bước @(i + 1)</div>
+              <div class="col-md-10 col-7">@cookSteps[i].Description</div>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
-*@  
+
+

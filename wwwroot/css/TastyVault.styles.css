@@ -10,7 +10,9 @@
 body {
   margin: 0;
 }
-
+html{
+  scroll-behavior: smooth;
+}
 .text-main {
   color: var(--primary)
 }
@@ -42,8 +44,10 @@ body {
   border-color: #f4f6fc;
 }
 
-.content-wrap {
-  transform: translateX(20%);
+@media (min-width:768px){
+  .content-wrap {
+    transform: translateX(20%);
+  }
 }
 
 .carousel-control-wrap {
@@ -72,13 +76,11 @@ body {
   margin-left: -12px
 }
 
-.hot-recipe-rectangle {
-}
-
 /**/
 .header-wrap {
-  min-height: 50px;
+  min-height: 60px;
   border-bottom: 1px solid #ccc;
+  
 }
 
 .avt-wrap {
@@ -122,4 +124,24 @@ body {
 
 .recipe-list{
   margin-top: 66px;
+}
+
+.recipe-img-btn{
+  width: 10%;
+}
+
+.to-top {
+  position: fixed;
+  bottom: 50px;
+  right: 50px;
+  animation: umbalaxibua 1s ease;
+}
+
+@keyframes umbalaxibua{
+  0%{
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(0);
+  }
 }
