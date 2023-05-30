@@ -76,8 +76,8 @@
           @foreach (var i in recipeIngredients)
           {
             <div class="row">
-              <div class="col-md-3 col-4">@((from ing in ingredients where ing.Id == i.IngredientId select ing).FirstOrDefault().Name)</div>
-              <div class="col-md-9 col-6">@i.Quantitative</div>
+              <div class="col-md-10 col-7">@((from ing in ingredients where ing.Id == i.IngredientId select ing).FirstOrDefault().Name)</div>
+              <div class="col-md-2 col-3">@i.Quantitative</div>
             </div>
           }
         </div>
@@ -89,8 +89,8 @@
           @for (int i = 0; i < cookSteps.Count(); i++)
           {
             <div class="row mb-3">
-              <div class="col-md-3 col-4">Bước @(i + 1)</div>
-              <div class="col-md-9 col-6">@cookSteps[i].Description</div>
+              <div class="col-md-2 col-3">Bước @(i + 1)</div>
+              <div class="col-md-10 col-7">@cookSteps[i].Description</div>
             </div>
           }
         </div>
