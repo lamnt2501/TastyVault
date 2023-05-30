@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
   <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
   <link rel="stylesheet" href="~/css/TastyVault.styles.css" asp-append-version="true" />
+  <script src="https://cdn.ckeditor.com/ckeditor5/38.0.1/classic/ckeditor.js"></script>
 </head>
 <body>
 
@@ -32,13 +33,13 @@
         <p class="m-0 mt-2 text-main"><strong>BÀI VIẾT</strong></p>
         <ul class="navbar-nav ms-2">
           <li class="nav-item">
-            <a class="nav-link text-sub" asp-area="" asp-controller="Home" asp-action="Index">Tạo bài viết</a>
+            <a class="nav-link text-sub" asp-action="create" asp-controller="Posts">Tạo bài viết</a>
           </li>
           <li class="nav-item">
             <a class="nav-link text-sub" asp-area="" asp-controller="Home" asp-action="Privacy">Bài viết của bạn</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-sub" asp-area="" asp-controller="Home" asp-action="Privacy">Blog chia sẻ</a>
+            <a class="nav-link text-sub" asp-area="" asp-controller="Posts" asp-action="index">Blog chia sẻ</a>
           </li>
         </ul>
 
@@ -98,7 +99,7 @@
     </div>
   </div>
 
-  <a href="#" class="to-top btn btn-info d-none text-white"><i class="fa-solid fa-arrow-up"></i></a>
+  <a href="#" class="to-top btn d-none text-white" style="background-color: #b0d4b8"><i class="fa-solid fa-arrow-up"></i></a>
 
   <script src="~/lib/jquery/dist/jquery.min.js"></script>
   <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

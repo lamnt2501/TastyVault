@@ -7,7 +7,7 @@ namespace TastyVault.Models
   public class PostImage
   {
     [Key]
-    public string Id { get; set; }
+    public int Id { get; set; }
     [Required]
     [Column(TypeName = "ntext")]
     public string ImagePath { get; set; }

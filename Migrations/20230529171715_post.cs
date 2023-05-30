@@ -79,8 +79,8 @@ namespace TastyVault.Migrations
                 name: "PostImages",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    IamgePath = table.Column<string>(type: "ntext", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false),
+                    ImagePath = table.Column<string>(type: "ntext", nullable: false),
                     PostID = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>

@@ -17,7 +17,7 @@ const AddCookStep = () => {
   // tạo input
   const inputStepDes = document.createElement("textarea");
   inputStepDes.classList.add("form-control");
-  inputStepDes.setAttribute("name","cs" + ++cookStepList.childElementCount)
+  inputStepDes.setAttribute("name", "cs" + ++cookStepList.childElementCount)
 
   // thêm các phần tử vào trong form group
   formGroup.appendChild(label);
@@ -75,7 +75,7 @@ const DeleteIngredient = () => {
 }
 let jsonImgs;
 if (document.querySelector(".jsonImg") != null) {
- jsonImgs = JSON.parse(document.querySelector(".jsonImg").value);
+  jsonImgs = JSON.parse(document.querySelector(".jsonImg").value);
 }
 const activerecipeImg = document.querySelector(".recipe-img-active-wrap img");
 const recipeImgList = document.querySelectorAll(".recipe-img-item img");
@@ -130,3 +130,11 @@ window.onscroll = () => {
     toTopBtn.classList.add("d-none");
   }
 }
+
+ClassicEditor
+  .create(document.querySelector('#editor'))
+  .catch(error => {
+    console.error(error);
+  });
+
+

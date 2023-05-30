@@ -369,19 +369,15 @@ namespace TastyVault.Migrations
 
             modelBuilder.Entity("TastyVault.Models.PostImage", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
 
-                    b.Property<string>("IamgePath")
+                    b.Property<string>("ImagePath")
                         .IsRequired()
                         .HasColumnType("ntext");
 
                     b.Property<int?>("PostID")
                         .HasColumnType("int");
-
-                    b.Property<string>("PostId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
