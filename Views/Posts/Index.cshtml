@@ -3,7 +3,9 @@
 @{
   ViewData["Title"] = "Blog";
   var postImgs = ViewData["PostImgs"] as List<PostImage>;
-
+  var comments = ViewData["Comments"] as List<PostComment>;
+  var reactions = ViewData["Reactions"] as List<PostReaction>;
+  var users = ViewData["PostOwner"] as List<AppUser>;
   var posts = Model.ToList();
   var dayOfWeeak = new string[]
   {
@@ -15,13 +17,14 @@
     "Thứ Sáu" ,
     "Thứ Bảy" ,
   };
-  //var createDate = "Vào " + dayOfWeeak[(int)Model.CreatedDate.DayOfWeek] + ", " + Model.CreatedDate.Day + " Tháng " + Model.CreatedDate.Month + ", " + Model.CreatedDate.Year + " Lúc " +
-  //                 Model.CreatedDate.ToString("HH:mm");
-}
 
+}
 <div class="row justify-content-center">
   @foreach (var p in posts)
   {
+    var createDate = "Vào " + dayOfWeeak[(int)p.CreatedDate.DayOfWeek] + ", " + p.CreatedDate.Day + " Tháng " + p.CreatedDate.Month + ", " + p.CreatedDate.Year + " Lúc " +
+    p.CreatedDate.ToString("HH:mm");
+
     <div class="col-6">
       <div class="clearfix">
         <div class="float-start">
@@ -30,28 +33,27 @@
               <img class="mw-100 rounded-circle" src="/img/logo.png">
             </div>
             <div class="ms-2 mt-2">
-              <p class="m-0 fs-5" style="">
-                username
-                <br />
-                <i class="" style="font-size:12px">@DateTime.Now</i>
+              <p class="m-0 fs-5 d-flex flex-column" style="">
+                @((from u in users where u.Id == p.UserId select u.UserName).FirstOrDefault())
+                <i class="" style="font-size:12px">@createDate</i>
               </p>
             </div>
           </div>
         </div>
       </div>
       <div>
-        <p>@p.Title</p>
+        <h3>@p.Title</h3>
       </div>
       <div class="text-center overflow-hidden" style="max-height: 655px">
-        <img class="w-100" src="@(postImgs.Where(i=>i.PostId==p.Id).FirstOrDefault()?.ImagePath)">
+        <img class="w-100" src="@(postImgs?.Where(i=>i.PostId==p.Id).FirstOrDefault()?.ImagePath)">
       </div>
       <div class="w-100 d-flex justify-content-between">
-        <a class="btn ps-3 border-start  rounded-0"><i class="fa-regular fa-heart"></i> 19</a>
-        <a class="btn pe-3 border-end rounded-0"><i class="fa-regular fa-comment"></i> 12</a>
+        <a class="btn ps-3 border-start  rounded-0"><i class="fa-regular fa-heart"></i> @((from r in reactions where r.PostId == p.Id select r.Id).Count())</a>
+        <a class="btn pe-3 border-end rounded-0"><i class="fa-regular fa-comment"></i> @((from c in comments where c.PostId == p.Id select c.Id).Count())</a>
       </div>
       <div class="w-100 btn-group">
-        <a asp-action="Details" asp-controller="Posts" asp-route-id="@p.Id" class="btn border rounded-0">Xem chi tiết <i class="fa-solid fa-arrow-right"></i></a>
-        <a class="btn border rounded-0"><i class="fa-regular fa-share-from-square"></i>Chia sẻ</a>
+        <a asp-action="Details" asp-controller="Posts" asp-route-id="@p.Id" class="btn border rounded-0 w-50">Xem chi tiết <i class="fa-solid fa-arrow-right"></i></a>
+        <a class="btn border rounded-0 w-50"><i class="fa-regular fa-share-from-square"></i>Chia sẻ</a>
       </div>
       <div></div>
     </div>

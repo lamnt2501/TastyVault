@@ -36,9 +36,9 @@
         </div>
       </div>
     </form>
-      <div class="text-center">
-        <input type="submit" value="Hủy" class="btn w-50 btn-outline-danger mt-3" />
-      </div>
+    <div class="text-center">
+      <input type="submit" value="Hủy" class="btn w-50 btn-outline-danger mt-3" />
+    </div>
   </div>
 </div>
 
@@ -51,3 +51,11 @@
     await Html.RenderPartialAsync("_ValidationScriptsPartial");
   }
 }
+
+<script>
+  ClassicEditor
+    .create(document.querySelector('#editor'))
+    .catch(error => {
+      console.error(error);
+    });
+</script>

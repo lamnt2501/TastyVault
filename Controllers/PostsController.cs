@@ -30,7 +30,10 @@ namespace TastyVault.Controllers
     // GET: Posts
     public async Task<IActionResult> Index()
     {
+      ViewData["Comments"] = _context.PostComments.ToList();
+      ViewData["Reactions"] = _context.PostReactions.ToList();
       ViewData["PostImgs"] = _context.PostImages.ToList();
+      ViewData["PostOwner"] = _context.Users.ToList();
       return View(await _context.Posts.ToListAsync());
     }
 
@@ -46,7 +49,11 @@ namespace TastyVault.Controllers
       {
         return Content("khong co post nao o day ca");
       }
-
+      ViewData["PostOwner"] = _context.Users.Where(u => u.Id == post.UserId).FirstOrDefault();
+      ViewData["PostImg"] = _context.PostImages.Where(pi=>pi.PostId == id).FirstOrDefault();
+      ViewData["Comments"] = _context.PostComments.Where(pc => pc.PostId == id).ToList();
+      ViewData["CommentUsers"] = from u in _context.Users from c in _context.PostComments where (u.Id == c.UserId && c.PostId == id) select u;
+      ViewData["Reactions"] = (from r in _context.PostReactions where r.PostId == id select r.Id).Count();
       return View(post);
     }
 
