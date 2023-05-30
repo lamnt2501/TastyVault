@@ -1,0 +1,59 @@
+﻿@model IEnumerable<TastyVault.Models.Post>
+
+@{
+  ViewData["Title"] = "Blog";
+  var postImgs = ViewData["PostImgs"] as List<PostImage>;
+
+  var posts = Model.ToList();
+  var dayOfWeeak = new string[]
+  {
+    "Chủ Nhật",
+    "Thứ Hai" ,
+    "Thứ Ba" ,
+    "Thứ Tư" ,
+    "Thứ Năm" ,
+    "Thứ Sáu" ,
+    "Thứ Bảy" ,
+  };
+  //var createDate = "Vào " + dayOfWeeak[(int)Model.CreatedDate.DayOfWeek] + ", " + Model.CreatedDate.Day + " Tháng " + Model.CreatedDate.Month + ", " + Model.CreatedDate.Year + " Lúc " +
+  //                 Model.CreatedDate.ToString("HH:mm");
+}
+
+<div class="row justify-content-center">
+  @foreach (var p in posts)
+  {
+    <div class="col-6">
+      <div class="clearfix">
+        <div class="float-start">
+          <div class="d-flex justify-content-sm-center">
+            <div style="width:62px" class="">
+              <img class="mw-100 rounded-circle" src="/img/logo.png">
+            </div>
+            <div class="ms-2 mt-2">
+              <p class="m-0 fs-5" style="">
+                username
+                <br />
+                <i class="" style="font-size:12px">@DateTime.Now</i>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <p>@p.Title</p>
+      </div>
+      <div class="text-center overflow-hidden" style="max-height: 655px">
+        <img class="w-100" src="@(postImgs.Where(i=>i.PostId==p.Id).FirstOrDefault()?.ImagePath)">
+      </div>
+      <div class="w-100 d-flex justify-content-between">
+        <a class="btn ps-3 border-start  rounded-0"><i class="fa-regular fa-heart"></i> 19</a>
+        <a class="btn pe-3 border-end rounded-0"><i class="fa-regular fa-comment"></i> 12</a>
+      </div>
+      <div class="w-100 btn-group">
+        <a asp-action="Details" asp-controller="Posts" asp-route-id="@p.Id" class="btn border rounded-0">Xem chi tiết <i class="fa-solid fa-arrow-right"></i></a>
+        <a class="btn border rounded-0"><i class="fa-regular fa-share-from-square"></i>Chia sẻ</a>
+      </div>
+      <div></div>
+    </div>
+  }
+</div>

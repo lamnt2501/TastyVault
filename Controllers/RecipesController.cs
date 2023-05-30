@@ -25,6 +25,11 @@ namespace TastyVault.Controllers
     // GET: Recipes
     public async Task<IActionResult> Index(int? cateId)
     {
+      if(cateId == null)
+      {
+        ViewData["RecipeImage"] = _context.RecipeImages.ToList();
+        return View(_context.Recipes.ToList());
+      }
       ViewData["Category"] = _context.Categories.Where(c=>c.Id == cateId).FirstOrDefault();
       if (_context.Recipes != null)
       {
@@ -91,7 +96,9 @@ namespace TastyVault.Controllers
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(RecipeModel? recipeModel)
     {
+
       if (ModelState.IsValid)
+
       {
         //thêm ngày tạo,update
         recipeModel.Recipe.CreatedDate = DateTime.Now;
