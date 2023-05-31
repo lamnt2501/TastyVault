@@ -24,15 +24,22 @@ namespace TastyVault.Controllers{
         {
             return View();
         }
-        public async Task<IActionResult> Details(int? menuId)
-        {
-            
-            return View();
-        }
         public async Task<IActionResult> Create()
         {
             return View();
         }
+        public async Task<IActionResult> Details(int? menuId)
+        {
+            ViewData["Menus"] = _context.Menus.Where(c=>c.Id == menuId).FirstOrDefault();
+            if (_context.Recipes != null)
+            {
+                ViewData["RecipeImage"] = (from img in _context.RecipeImages from rc in _context.Recipes where rc.Id == img.RecipeId select img).ToList();
+                var recipes = await (from r in _context.Recipes from mr in _context.MenuRecipes where mr.Menus.Id == menuId select r).ToListAsync();
+                return View(recipes);
+            }
+            return Problem("Entity set 'AppDbContext.Menus'  is null.");
+        }
+
         public async Task<IActionResult> Delete()
         {
             return View();
