@@ -1,11 +1,14 @@
-﻿@model TastyVault.Models.Post
-
+﻿@using Microsoft.AspNetCore.Identity;
+@model TastyVault.Models.Post
+@inject UserManager<AppUser> _userManage
 @{
   ViewData["Title"] = "Details";
   var postImg = ViewData["PostImg"] as PostImage;
   var comments = ViewData["Comments"] as List<PostComment>;
+  comments = comments.OrderByDescending(c => c.CreatedDate).ToList();
   var commentUsers = ViewData["CommentUsers"] as List<AppUser>;
   var reactionCount = ViewData["Reactions"] as int?;
+  var userReactions = ViewData["UserReactions"] as List<string>;
   var isSignin = User.Identity?.IsAuthenticated;
   var postOwner = ViewData["PostOwner"] as AppUser;
   var dayOfWeeak = new string[]
@@ -18,11 +21,16 @@
     "Thứ Sáu" ,
     "Thứ Bảy" ,
   };
-
+  var commentValue = new string[]
+             {
+                _userManage.GetUserId(User),
+                Model.Id.ToString()
+             };
   var createDate = "Vào " + dayOfWeeak[(int)Model.CreatedDate.DayOfWeek] + ", " + Model.CreatedDate.Day + " Tháng " + Model.CreatedDate.Month + ", " + Model.CreatedDate.Year + " Lúc " +
     Model.CreatedDate.ToString("HH:mm");
 }
-<input type="hidden" value="@isSignin" id="isSignin" />
+
+
 <div style="max-height: 400px;overflow:hidden" class="position-relative">
   <img src="/@postImg.ImagePath" class="" />
   <h3 class="position-absolute top-50 start-50 text-center text" style="transform:translateX(-50%);text-shadow: 2px 2px #fff">
@@ -31,40 +39,69 @@
 </div>
 
 <div class="row justify-content-center">
-
   <div class="col-12 col-sm-8">
-
-    <div class="my-5">
-
+    <div class="btn-group w-100 text-center mt-4">
+      <form class="btn p-0 btn-outline-dark form-btn" asp-action="Create" asp-controller="PostReactions" method="post">
+        <input type="hidden" name="id" value="@Model.Id"/>
+        <input type="hidden" name="userid" value="@_userManage.GetUserId(User)" />
+        <button class="btn w-100"><i class="fa-regular fa-heart" style="color:@(userReactions.Contains(_userManage.GetUserId(User))?"pink":"");"></i> @userReactions.Count()</button>
+      </form>
+      <a href="#comment" class="btn btn-outline-dark "><i class="fa-regular fa-comment"></i> @comments.Count()</a>
+      <a class="btn btn-outline-dark"><i class="fa-regular fa-share-from-square"></i> Chia sẻ</a>
+    </div>
+    <div class="mt-5 mb-4">
       <div class="clearfix">
-
         <div class="float-start">
-
           <div class="d-flex justify-content-sm-center">
-
             <div style="width:62px" class="">
               <img class="mw-100 rounded-circle" src="/img/logo.png">
             </div>
-
             <div class="ms-2 mt-2">
               <p class="m-0 fs-5  d-flex flex-column" style="">
                 @postOwner.UserName
                 <i class="" style="font-size:12px">@createDate</i>
               </p>
             </div>
-
           </div>
-
         </div>
       </div>
     </div>
-    <div class="btn-group float-xl-end w-100 text-center">
-      <a class="btn btn-outline-dark flex-1"><i class="fa-regular fa-heart"></i> @reactionCount</a>
-      <a class="btn btn-outline-dark flex-1"><i class="fa-regular fa-comment"></i> Bình luận</a>
-      <a class="btn btn-outline-dark flex-1"><i class="fa-regular fa-share-from-square"></i> Chia sẻ</a>
-    </div>
+
 
     @Html.Raw(Model.Content)
+
+    <div>
+      <h3 id="comment">Bình luận</h3>
+      <div class="row">
+        <div class="col-2 d-flex justify-content-center align-items-center">
+          <div style="max-width:100px">
+            <img src="/img/logo.png" class="w-100 rounded-circle" />
+          </div>
+        </div>
+        <div class="col-10">
+          <partial name="_Comment" model="commentValue"></partial>
+        </div>
+      </div>
+      @foreach (var c in comments)
+      {
+        var date = "Vào " + dayOfWeeak[(int)c.CreatedDate.DayOfWeek] + ", " + c.CreatedDate.Day + " Tháng " + c.CreatedDate.Month + ", " + c.CreatedDate.Year + " Lúc " +
+        c.CreatedDate.ToString("HH:mm");
+        <div class="comment mt-3 row">
+          <div class="col-2 d-flex justify-content-center align-items-center">
+            <div style="max-width:100px">
+              <img src="/img/logo.png" class="w-100 rounded-circle" />
+            </div>
+          </div>
+          <div class="d-flex p-0  flex-column col-10">
+            <p class="m-0">@(commentUsers.Where(u => u.Id == c.UserId).FirstOrDefault().UserName)</p>
+            <i style="font-size:12px">@date</i>
+            <div class="py-1 mt-1 px-3 rounded-3 bg-white">
+              <p class="m-0" style="word-break:break-word">@c.Content</p>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
   </div>
 </div>
 
@@ -72,5 +109,5 @@
   const imgs = document.querySelectorAll("img");
   imgs.forEach(i => {
     i.style.width = "100%";
-  })
+  });
 </script>
