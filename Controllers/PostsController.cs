@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Data;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.EntityFrameworkCore;
 using TastyVault.Models;
 using static TastyVault.Controllers.CategoriesController;
@@ -20,7 +14,7 @@ namespace TastyVault.Controllers
     private readonly AppDbContext _context;
     private readonly UserManager<AppUser> _userManager;
     private readonly IWebHostEnvironment _webHostEnvironment;
-    public PostsController(AppDbContext context,UserManager<AppUser> userManager,IWebHostEnvironment webHostEnvironment)
+    public PostsController(AppDbContext context, UserManager<AppUser> userManager, IWebHostEnvironment webHostEnvironment)
     {
       _context = context;
       _userManager = userManager;
@@ -42,18 +36,24 @@ namespace TastyVault.Controllers
     {
       if (id == null || _context.Posts == null)
       {
-        return Content("vailon luon");
+        return StatusCode(404);
       }
       var post = await _context.Posts.FirstOrDefaultAsync(m => m.Id == id);
       if (post == null)
       {
-        return Content("khong co post nao o day ca");
+        return StatusCode(404);
       }
       ViewData["PostOwner"] = _context.Users.Where(u => u.Id == post.UserId).FirstOrDefault();
-      ViewData["PostImg"] = _context.PostImages.Where(pi=>pi.PostId == id).FirstOrDefault();
+      ViewData["PostImg"] = _context.PostImages.Where(pi => pi.PostId == id).FirstOrDefault();
       ViewData["Comments"] = _context.PostComments.Where(pc => pc.PostId == id).ToList();
-      ViewData["CommentUsers"] = from u in _context.Users from c in _context.PostComments where (u.Id == c.UserId && c.PostId == id) select u;
+      ViewData["CommentUsers"] = (from c in _context.PostComments
+                                 join u in _context.Users
+                                 on c.UserId equals u.Id
+                                 select u).ToList();
       ViewData["Reactions"] = (from r in _context.PostReactions where r.PostId == id select r.Id).Count();
+      ViewData["UserReactions"] = (from r in _context.PostReactions
+                                  where r.PostId == id
+                                  select r.UserId).ToList();
       return View(post);
     }
 
@@ -70,7 +70,7 @@ namespace TastyVault.Controllers
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("UserId,Title,Content")] Post post,IFormFile file)
+    public async Task<IActionResult> Create([Bind("UserId,Title,Content")] Post post, IFormFile file)
     {
       if (ModelState.IsValid)
       {
@@ -80,7 +80,7 @@ namespace TastyVault.Controllers
         _context.Add(post);
         await _context.SaveChangesAsync();
 
-        var postId = _context.Posts.OrderBy(p=>p.Id).LastOrDefault().Id;
+        var postId = _context.Posts.OrderBy(p => p.Id).LastOrDefault().Id;
         if (file != null && file.Length > 0)
         {
           string datetimeprefix = DateTime.Now.ToString("yyyyMMddhhmmss");

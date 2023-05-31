@@ -144,3 +144,7 @@ html{
     transform: translateX(0);
   }
 }
+
+.form-btn button:hover{
+  color: white;
+}
