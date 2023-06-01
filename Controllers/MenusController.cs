@@ -22,11 +22,17 @@ namespace TastyVault.Controllers{
         }
         public async Task<IActionResult> Index()
         {
-            return View();
+            var MenuUser = await (from mu in _context.Menus where mu.UserId == _userManager.GetUserId(User) select mu).FirstOrDefaultAsync();
+            if(MenuUser != null){
+                return View(MenuUser);
+            }
+            return NotFound();
         }
         public async Task<IActionResult> Create()
         {
-            return View();
+            return _context.Menus != null ?
+                    View(await _context.Menus.ToListAsync()) :
+                    Problem("Entity set 'AppDbContext.Menus'  is null.");
         }
         public async Task<IActionResult> Details(int? menuId)
         {
@@ -40,9 +46,12 @@ namespace TastyVault.Controllers{
             return Problem("Entity set 'AppDbContext.Menus'  is null.");
         }
 
-        public async Task<IActionResult> Delete()
+        public async Task<IActionResult> Delete(int? menuId)
         {
-            return View();
+            var DetailsMenu = await (from dm in _context.MenuRecipes where dm.MenuId == menuId select dm).ToListAsync();
+            if(DetailsMenu != null)
+                return View(DetailsMenu);
+            return NotFound();
         }
     }
 }
