@@ -30,5 +30,7 @@ namespace TastyVault.Models
     public DbSet<PostComment> PostComments { get; set; }
     public DbSet<PostImage> PostImages { get; set; }  
     public DbSet<PostReaction> PostReactions { get; set; }
+    public DbSet<Menus> Menus { get; set; }
+    public DbSet<MenuRecipes> MenuRecipes { get; set; }
   }
 }

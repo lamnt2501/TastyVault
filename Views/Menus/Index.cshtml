@@ -1,0 +1,29 @@
+@model IEnumerable<TastyVault.Models.Menus>;
+
+@{
+    ViewData["Title"] = "Delete";
+    var Menus = Model.ToList();
+}
+
+<div class="container">
+  <div class="row justify-content-center align-items-center">
+    @for(int i = 0; i< 10; i++){
+    <div class="col-md-4">
+      <div class="position-relative">
+        <img src="https://cdn.tgdd.vn/Files/2021/02/03/1325236/cach-phan-biet-thit-bo-gia-bo-to-nhanh-va-chuan-xac-nhat-202102031343037404.jpg" alt="Your Image" class="img-fluid">
+        <h1 class="text-center position-absolute top-50 start-50 translate-middle">Your Text Here</h1>
+      </div>
+    </div>
+    }
+@* @foreach (var m in Menus)
+{
+    <div class="col-md-4">
+      <div class="position-relative">
+        <img src="@m.path" alt="Your Image" class="img-fluid">
+        <h1 class="text-center position-absolute top-50 start-50 translate-middle">@m.MenuName</h1>
+      </div>
+    </div>
+} *@
+
+  </div>
+</div>
