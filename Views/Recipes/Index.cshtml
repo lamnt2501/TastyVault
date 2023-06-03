@@ -6,69 +6,27 @@
   var recipes = Model.ToList();
   var recipeImg = ViewData["RecipeImage"] as List<RecipeImage>;
 }
-
+@if (category != null)
+{
 <div class="bg-white rounded-3 position-relative category-recipe-index-outer" style="height:100px">
   <div class="position-absolute category-recipe-index-inner" style="width:100px;height:100px;">
     <img class="w-100 h-100 rounded-circle" src="@category.ImagePath" />
     <h2 style="width: 200px">@category.Name</h2>
   </div>
-</div>
-@*
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CreatedDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ModifiedDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Status)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreatedDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ModifiedDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Status)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
+  </div>
 }
-    </tbody>
-</table>
-*@
+else
+{
+  <h1>Danh sách công thức nấu ăn</h1>
+}
 <div class="row recipe-list">
   @foreach (var rc in recipes)
   {
     <div class="col-sm-6 col-md-3 ps-0">
       <div class="border">
-        <div class="recipe-img rounded bg-img" style="background-image:url('/img/monan2.jpg')"></div>
+        <div class="rounded bg-img">
+          <img class="w-100" src="@recipeImg.FirstOrDefault(ri=>ri.RecipeId==rc.Id)?.Path">
+        </div>
         <div class="py-3 px-2 bg-white">
           <p class="recipe-title mb-2 fs-5">@rc.Name</p>
           <p class="fw-light mb-0"><i>@rc.CreatedDate.ToString("dd/MM/yyyy - HH:mm")</i></p>

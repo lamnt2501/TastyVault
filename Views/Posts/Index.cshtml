@@ -1,5 +1,6 @@
-﻿@model IEnumerable<TastyVault.Models.Post>
-
+﻿@using Microsoft.AspNetCore.Identity;
+@model IEnumerable<TastyVault.Models.Post>
+@inject UserManager<AppUser> _userManage
 @{
   ViewData["Title"] = "Blog";
   var postImgs = ViewData["PostImgs"] as List<PostImage>;
@@ -22,10 +23,11 @@
 <div class="row justify-content-center">
   @foreach (var p in posts)
   {
-    var createDate = "Vào " + dayOfWeeak[(int)p.CreatedDate.DayOfWeek] + ", " + p.CreatedDate.Day + " Tháng " + p.CreatedDate.Month + ", " + p.CreatedDate.Year + " Lúc " +
-    p.CreatedDate.ToString("HH:mm");
+    var createDate = "Vào " + dayOfWeeak[(int)p.CreatedDate.DayOfWeek] + ", " 
+    + p.CreatedDate.Day + " Tháng " + p.CreatedDate.Month + ", " + p.CreatedDate.Year
+    + " Lúc " + p.CreatedDate.ToString("HH:mm");
 
-    <div class="col-md-6 col-sm-8">
+    <div class="col-md-6 col-sm-8" id="post-@p.Id">
       <div class="clearfix">
         <div class="float-start">
           <div class="d-flex justify-content-sm-center">
@@ -47,9 +49,17 @@
       <div class="text-center overflow-hidden" style="max-height: 655px">
         <img class="w-100" src="@(postImgs?.Where(i=>i.PostId==p.Id).FirstOrDefault()?.ImagePath)">
       </div>
-      <div class="w-100 d-flex justify-content-between">
-        <a class="btn ps-3 border-start  rounded-0"><i class="fa-regular fa-heart"></i> @((from r in reactions where r.PostId == p.Id select r.Id).Count())</a>
-        <a asp-action="Details" asp-route-id="@p.Id" asp-fragment="comment"  class="btn pe-3 border-end rounded-0"><i class="fa-regular fa-comment"></i> @((from c in comments where c.PostId == p.Id select c.Id).Count())</a>
+      <div class="w-100 d-flex  justify-content-between">
+        <form class="btn p-0 rounded-0 border-start " asp-action="Create" asp-controller="PostReactions" method="post">
+          <input type="hidden" name="id" value="@p.Id" />
+          <input type="hidden" name="userid" value="@_userManage.GetUserId(User)" />
+          <input type="hidden" name="redirect" value="index" />
+          <input type="hidden" name="fragment" value="post-@p.Id" />
+          <button class="btn ps-3"><i class="fa-regular fa-heart" style="@((from r in reactions where r.UserId == _userManage.GetUserId(User) select r).Count()>0?"color:pink;":"")"></i> @((from r in reactions where r.PostId == p.Id select r.Id).Count())</button>
+        </form>
+        
+        @*<a class="btn ps-3 border-start  rounded-0"><i class="fa-regular fa-heart" style="@((from r in reactions where r.UserId == _userManage.GetUserId(User) select r).Count()>0?"color:pink;":""))"></i> @((from r in reactions where r.PostId == p.Id select r.Id).Count())</a>*@
+        <a  asp-action="Details" asp-route-id="@p.Id" asp-fragment="comment" class="btn pe-3 border-end rounded-0"><i class="fa-regular fa-comment"></i> @((from c in comments where c.PostId == p.Id select c.Id).Count())</a>
       </div>
       <div class="w-100 btn-group">
         <a asp-action="Details" asp-controller="Posts" asp-route-id="@p.Id" class="btn border rounded-0 w-50">Xem chi tiết <i class="fa-solid fa-arrow-right"></i></a>

@@ -22,7 +22,7 @@ namespace TastyVault.Controllers
         public async Task<IActionResult> Index()
         {
               return _context.Ingredients != null ? 
-                          View(await _context.Ingredients.ToListAsync()) :
+                          View(await _context.Ingredients.OrderBy(i=>i.Name).ToListAsync()) :
                           Problem("Entity set 'AppDbContext.Ingredients'  is null.");
         }
 
