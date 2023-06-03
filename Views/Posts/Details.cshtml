@@ -44,7 +44,7 @@
       <form class="btn p-0 btn-outline-dark form-btn" asp-action="Create" asp-controller="PostReactions" method="post">
         <input type="hidden" name="id" value="@Model.Id"/>
         <input type="hidden" name="userid" value="@_userManage.GetUserId(User)" />
-        <button class="btn w-100"><i class="fa-regular fa-heart" style="color:@(userReactions.Contains(_userManage.GetUserId(User))?"pink":"");"></i> @userReactions.Count()</button>
+        <button class="btn w-100"><i class="fa-regular fa-heart" style="@(userReactions.Contains(_userManage.GetUserId(User))?"color:pink;":"");"></i> @userReactions.Count()</button>
       </form>
       <a href="#comment" class="btn btn-outline-dark "><i class="fa-regular fa-comment"></i> @comments.Count()</a>
       <a class="btn btn-outline-dark"><i class="fa-regular fa-share-from-square"></i> Chia sẻ</a>

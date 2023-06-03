@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using TastyVault.Models;
 
@@ -34,7 +29,7 @@ namespace TastyVault.Controllers
       if (_context.Recipes != null)
       {
         ViewData["RecipeImage"] = (from img in _context.RecipeImages from rc in _context.Recipes where rc.Id == img.RecipeId select img).ToList();
-        var recipes = await (from r in _context.Recipes from rc in _context.RecipeCategories where rc.Category.Id == cateId select r).ToListAsync();
+        var recipes = await (from r in _context.Recipes join rc in _context.RecipeCategories on r.Id equals rc.RecipeId where rc.Category.Id == cateId select r).ToListAsync();
         return View(recipes);
 
       }

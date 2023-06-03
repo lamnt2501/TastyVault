@@ -35,8 +35,9 @@ namespace TastyVault.Controllers
     [HttpPost]
     [ValidateAntiForgeryToken]
     [Authorize]
-    public async Task<ActionResult> Create(int id, string userid)
+    public async Task<ActionResult> Create(int id, string userid,string? redirect,string? fragment)
     {
+      
       var reaction = new PostReaction()
       {
         PostId = id,
@@ -52,7 +53,13 @@ namespace TastyVault.Controllers
 
       }
       await _appDbContext.SaveChangesAsync();
-      return RedirectToAction("Details", "Posts", new { id = id });
+      switch (redirect)
+      {
+        case "index":
+          return RedirectToAction("Index", "Posts",null, fragment);
+        default: 
+          return RedirectToAction("Details", "Posts", new { id = id });
+      }
     }
 
     // GET: PostReactions/Edit/5

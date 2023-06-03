@@ -12,7 +12,7 @@ namespace TastyVault.Models
     [Column(TypeName = "ntext")]
     public string ImagePath { get; set; }
     public int PostId { get; set; }
-    [ForeignKey("PostID")]
+    [ForeignKey("PostId")]
     public Post? Post { get; set; }
   }
 }

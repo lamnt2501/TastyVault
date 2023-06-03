@@ -1,4 +1,5 @@
-﻿@{
+﻿@using static TastyVault.Controllers.HomeController;
+@{
   ViewData["Title"] = "Trang chủ";
 
   var model1 = new TastyVault.Views.Shared._HotBlogModel()
@@ -7,11 +8,8 @@
         Title = "Món ăn hot nhất những ngày hè là gì ??",
         Description = "Tất nhiên là dưa hấu dầm đá, các món mát lạnh tới từ hoa quả"
       };
-  var date = DateTime.Now;
-  var datestring = $"{date.Day}/{date.Month}/{date.Year} {date.ToShortTimeString()}";
-  
+  var newRecipes = (ViewData["NewRecipes"] as List<NewRecipes>);
 }
-
 <div id="carouselAutoplaying" class="carousel slide position-relative" data-bs-ride="carousel">
   <div class="carousel-inner">
     <div class="carousel-item active">
@@ -42,17 +40,21 @@
   <div class="col-md-8 col-sm-12 p-0 ">
     <div class="container-fluid">
       <div class="row">
-        @for (int i = 0; i <= 3; i++)
+        @if(newRecipes!=null)
+        @for (int i = 0; i < (newRecipes.Count > 4 ? 4 : newRecipes.Count()); i++)
         {
+          var recipeCreateDate = newRecipes[i].Recipe.CreatedDate;
+          var dateString = recipeCreateDate.Day + " Tháng " + recipeCreateDate.Month + ", " + recipeCreateDate.Year +
+                           " Lúc " + recipeCreateDate.ToString("HH:mm");
           <div class="col-sm-6 ps-0">
             <div class="border">
-              <div class="recipe-img rounded bg-img" style="background-image:url('/img/monan2.jpg')"></div>
+              <div class="recipe-img rounded bg-img" style="background-image:url(@newRecipes[i].Path.Replace("\\","/"))"></div>
               <div class="py-3 px-2 bg-white">
-                <p class="recipe-title mb-2 fs-5">Món ăn qq gì đó</p>
-                <p class="fw-light mb-0"><i>@datestring</i></p>
+                <p class="recipe-title mb-2 fs-5">@newRecipes[i].Recipe.Name</p>
+                <p class="fw-light mb-0"><i>@dateString</i></p>
               </div>
             </div>
-            <a class="btn btn-outline-dark mt-2 mb-3">
+            <a asp-action="Details" asp-controller="Recipes" asp-route-id="@newRecipes[i].Recipe.Id" class="btn btn-outline-dark mt-2 mb-3">
               Xem chi tiết
               <i class="fa-solid fa-arrow-right"></i>
             </a>
@@ -62,19 +64,22 @@
 
     </div>
   </div>
-  <div class="col-md-4 col-sm-12 p-0 border position-relative d-none d-sm-block" style="max-height: 700px;">
-    <div class="w-100 h-100 rounded d-flex justify-content-center overflow-hidden" >
-      <img class="" src="@model1.ImagePath"  />
+  @if (newRecipes != null)
+  {
+    <div class="col-md-4 col-sm-12 p-0 border position-relative d-none d-sm-block" style="max-height: 700px;">
+      <div class="w-100 h-100 rounded d-flex justify-content-center overflow-hidden" >
+        <img class="w-100"  src="@newRecipes[newRecipes.Count()-1].Path" />
+      </div>
+      <h3 class="position-absolute top-50 text-light ms-3 w-75" style="text-shadow:2px 2px #000;">@newRecipes[newRecipes.Count()-1].Recipe.Name</h3>
+      <a asp-action="Details" asp-controller="Recipes" asp-route-id="@newRecipes[newRecipes.Count()-1].Recipe.Id" class="btn btn-light position-absolute bottom-0 end-0">
+        Xem chi tiết
+        <i class="fa-solid fa-arrow-right"></i>
+      </a>
     </div>
-    <h3 class="position-absolute top-50 text-light ms-3 w-75">Nhìn 1 lần cũng biết làm</h3>
-    <a class="btn btn-light position-absolute bottom-0 end-0">
-      Xem chi tiết
-      <i class="fa-solid fa-arrow-right"></i>
-    </a>
-  </div>
+  }
 </div>
 
-<h2 class="text-main mt-5 fw-normal">Bài viết nổi bật vãil</h2>
+<h2 class="text-main mt-5 fw-normal">Bài viết nổi bật</h2>
 <div class="row">
   @for (int i = 1; i <= 3; i++)
   {
@@ -84,7 +89,7 @@
         <div class="px-2 py-3 bg-white">
           <p class="recipe-title mb-2 fs-5">Bài viết củ chuối nào  đó</p>
           <div class="clearfix">
-            <p class="fw-light mb-0 float-start"><i>@datestring</i></p>
+            <p class="fw-light mb-0 float-start"><i>@DateTime.Now</i></p>
             <a class="float-end btn p-0"><i class="fa-regular fa-heart"></i>12</a>
           </div>
         </div>
