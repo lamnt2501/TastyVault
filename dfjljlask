@@ -1,0 +1,46 @@
+[33ma1d4c1b[m[33m ([m[1;36mHEAD -> [m[1;32mvuan201[m[33m, [m[1;31morigin/vuan201[m[33m)[m them details cho menus
+[33mee02d32[m Merge branch 'master' into vuan201
+[33mc604ad8[m[33m ([m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmaster[m[33m)[m xong
+[33m75e7395[m xong
+[33mfe1352f[m Merge pull request #15 from lamnt2501/lannt2501
+[33mdd3ca79[m[33m ([m[1;31morigin/lannt2501[m[33m)[m chỉnh sửa trang index post và details post
+[33ma29155a[m vuan201
+[33m6648405[m Merge pull request #14 from lamnt2501/lannt2501
+[33m92a05c9[m thêm post controller, chỉnh sửa  view post index post create
+[33mc722a9e[m vuan201
+[33m9e54356[m thêm post và các anh em của nó vào database
+[33m9cff9de[m sửa trang quên mật khẩu, thêm nút to top
+[33mb42f39f[m Merge pull request #13 from lamnt2501/lannt2501
+[33m9b11a9c[m sửa giao diện trang chi tiết công thức responsive trang home
+[33mf1c516d[m vuan201
+[33m229d41f[m Merge pull request #12 from lamnt2501/lannt2501
+[33m2d58e2c[m sửa trang chi tiết công thức
+[33md2188ef[m chỉnh sửa trang tạo công thức, thêm trang hiển thị dang sách công thức theo phân loại
+[33mf3d4ec0[m Merge pull request #11 from lamnt2501/lannt2501
+[33ma0c7d6e[m thêm chức năng tạo cong thức mới
+[33m21cbe09[m Merge pull request #10 from lamnt2501/lannt2501
+[33ma8f62c7[m thêm trang đăng nhập và đăng ký
+[33me7e8097[m Merge pull request #9 from lamnt2501/lannt2501
+[33ma53fdae[m thêm identity
+[33m68e1d09[m dựng lại các model có foreign key
+[33m46fec0d[m dựng chức năng thêm  món ăn (chưa hoàn chỉnh nhưng push đi ngủ)
+[33mca4e70b[m Merge pull request #8 from lamnt2501/lannt2501
+[33m7dce10b[m thêm controller ingredients, responsive trang home
+[33m7479f7c[m Merge pull request #7 from lamnt2501/lannt2501
+[33mfb292ca[m thêm controller recipes (công thức nấu ăn)
+[33m6190b80[m Merge pull request #6 from lamnt2501/lannt2501
+[33m31cd8d1[m dựng giao diện danh mục món ăn
+[33m9683d3e[m thêm categories controller
+[33m7f87791[m Merge pull request #5 from lamnt2501/lannt2501
+[33m4e4da32[m thêm model của recipe,ingredient,category,recipeimage,recipeingredient,cookstep,recipecategory thêm recipe controller
+[33mbdc04f3[m Merge pull request #4 from lamnt2501/lannt2501
+[33m729a907[m sửa trang home, thêm avt trên header, bỏ list link đầu header cũ, sửa nền các mục trong main content
+[33m5bbdce3[m Merge pull request #3 from lamnt2501/lannt2501
+[33mef520f9[m chỉnh sửa trang home, thêm món ăn nổi bật, thêm bài viết nổi bật
+[33m73255d9[m Merge pull request #2 from lamnt2501/lannt2501
+[33mb1de637[m chỉnh sửa trang home, thêm slider đầu trang
+[33m82d5571[m Create README.md
+[33m862ff4f[m Merge pull request #1 from lamnt2501/lannt2501
+[33m50a52a0[m điều chỉnh lại trang home, thêm side bar
+[33m184ec36[m Add project files.
+[33mc9f236b[m Add .gitattributes and .gitignore.

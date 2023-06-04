@@ -23,3 +23,8 @@ namespace TastyVault.Models{
         public AppUser? User {set; get;}
     }
 }
+        public string? UserId {set; get; }
+        [ForeignKey("UserId")]
+        public AppUser? User {set; get;}
+    }
+}
