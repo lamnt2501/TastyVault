@@ -154,3 +154,12 @@ html{
 .form-btn button:hover{
   color: white;
 }
+
+.tab-active{
+  color: var(--primary);
+  border-bottom: 2px solid var(--primary);
+}
+
+.tab-item {
+  cursor: pointer;
+}

@@ -97,8 +97,12 @@
             <div class="clearfix">
               <p class="fw-light mb-0 float-start"><i>@dateString</i></p>
               <p class="float-end p-0 m-0">
-                <i class="fa-regular fa-heart
-                  "></i> @popularPosts[i].Reactioncount
+                <i class="fa-regular fa-heart" style="
+                  @(context.PostReactions.
+                  Where(pr=>pr.PostId==popularPosts[i].Post.Id).
+                  Where(pr=>pr.UserId==_userManage.GetUserId(User)).FirstOrDefault()!=null ? "color:pink;":"")">
+                </i>
+                @popularPosts[i].Reactioncount
               </p>
             </div>
           </div>

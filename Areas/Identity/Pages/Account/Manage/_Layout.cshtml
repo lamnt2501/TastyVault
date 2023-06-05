@@ -1,28 +1,28 @@
 ﻿@inject UserManager<AppUser> userManager
 @{
-    if (ViewData.TryGetValue("ParentLayout", out var parentLayout) && parentLayout !=  null)
-    {
-        Layout = parentLayout.ToString();
-    }
-    else
-    {
-        Layout = "/Areas/Identity/Pages/_Layout.cshtml";
-    }
+  if (ViewData.TryGetValue("ParentLayout", out var parentLayout) && parentLayout != null)
+  {
+    Layout = parentLayout.ToString();
+  }
+  else
+  {
+    Layout = "/Areas/Identity/Pages/_Layout.cshtml";
+  }
 }
 
- <div class="row justify-content-center">
-   <div class="col-2">
-     <div>
-      <img class="w-100" src="~/img/logo.png" style="max-width: 200px"/>
-     </div>
-   </div>
- </div>
+<div class="row justify-content-center">
+  <div class="col-2">
+    <div>
+      <img class="w-100" src="~/img/logo.png" style="max-width: 200px" />
+    </div>
+  </div>
+</div>
 <div class="">
   <h3 class="text-center fw-light">Xin chào @User.Identity.Name</h3>
 </div>
 
 <div class="row tab-list mb-5">
-  <div class="col-4 tab-item border py-1">
+  <div class="col-4 tab-item  py-1 tab-active">
     <div>
       <p class="m-0 text-center">Bài viết</p>
     </div>
@@ -30,7 +30,7 @@
       <p class="m-0 text-center">10</p>
     </div>
   </div>
-  <div class="col-4 tab-item border py-1">
+  <div class="col-4 tab-item py-1 ">
     <div>
       <p class="m-0 text-center">Thực đơn</p>
     </div>
@@ -38,7 +38,7 @@
       <p class="m-0 text-center">10</p>
     </div>
   </div>
-  <div class="col-4 tab-item border py-1">
+  <div class="col-4 tab-item py-1 ">
     <div>
       <p class="m-0 text-center">Thông tin</p>
     </div>
@@ -48,17 +48,43 @@
   </div>
 </div>
 
-<div>
-    <div class="row">
-        <div class="col-md-3">
-            <partial name="_ManageNav" />
-        </div>
-        <div class="col-md-9">
-            @RenderBody()
-        </div>
+<div class="tab-content-0 active">
+  <p>noi dung gi do1111111</p>
+</div>
+<div class="tab-content-1 d-none">
+  <p>noi dung gi do222222222222</p>
+</div>
+
+<div class="tab-content-2 d-none">
+  <div class="row">
+    <div class="col-md-3">
+      <partial name="_ManageNav" />
     </div>
+    <div class="col-md-9">
+      @RenderBody()
+    </div>
+  </div>
 </div>
 
 @section Scripts {
-    @RenderSection("Scripts", required: false)
+  @RenderSection("Scripts", required: false)
 }
+<script>
+  const tabList = document.querySelectorAll(".tab-item");
+  const tabs = document.querySelectorAll("[class*='tab-content-']");
+  const toggleTab = (i)=>{
+    tabs.forEach((tab,index)=>{
+      if(i!=index){
+         tab.classList.add("d-none");
+         tabList[index].classList.remove("tab-active");
+      } else {
+        tab.classList.remove("d-none");
+        tabList[index].classList.add("tab-active");
+      }
+    })
+  }
+  tabList.forEach((tab, index) => {
+    tab.addEventListener("click",()=>{toggleTab(index)});
+   });
+    
+</script>
