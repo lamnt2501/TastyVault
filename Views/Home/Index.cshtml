@@ -1,23 +1,26 @@
-﻿@using static TastyVault.Controllers.HomeController;
+﻿@using Microsoft.AspNetCore.Identity;
+@using static TastyVault.Controllers.HomeController;
+@inject TastyVault.Models.AppDbContext context
+@inject UserManager<AppUser> _userManage
+
 @{
   ViewData["Title"] = "Trang chủ";
-
-  var model1 = new TastyVault.Views.Shared._HotBlogModel()
-      {
-        ImagePath = "/img/Anh-avatar-dep-chat-lam-hinh-dai-dien.jpg",
-        Title = "Món ăn hot nhất những ngày hè là gì ??",
-        Description = "Tất nhiên là dưa hấu dầm đá, các món mát lạnh tới từ hoa quả"
-      };
   var newRecipes = (ViewData["NewRecipes"] as List<NewRecipes>);
+  var newPosts = ViewData["NewPosts"] as List<NewPost>;
+  var popularPosts = ViewData["PopularPosts"] as List<PopularPost>;
 }
+
 <div id="carouselAutoplaying" class="carousel slide position-relative" data-bs-ride="carousel">
   <div class="carousel-inner">
     <div class="carousel-item active">
-      <partial name="_HotBlog" model="@model1"></partial>
+      <partial name="_HotBlog" model="@newPosts[0]"></partial>
     </div>
-    <div class="carousel-item">
-      <partial name="_HotBlog" model="@model1"></partial>
-    </div>
+    @for (int i = 1; i < newPosts.Count; i++)
+    {
+      <div class="carousel-item">
+        <partial name="_HotBlog" model="@newPosts[i]"></partial>
+      </div>
+    }
   </div>
   <div class="btn-group carousel-control-wrap position-absolute bottom-0 end-0">
     <button class="btn btn-light p-3 border" type="button" data-bs-target="#carouselAutoplaying" data-bs-slide="prev">
@@ -40,35 +43,35 @@
   <div class="col-md-8 col-sm-12 p-0 ">
     <div class="container-fluid">
       <div class="row">
-        @if(newRecipes!=null)
-        @for (int i = 0; i < (newRecipes.Count > 4 ? 4 : newRecipes.Count()); i++)
-        {
-          var recipeCreateDate = newRecipes[i].Recipe.CreatedDate;
-          var dateString = recipeCreateDate.Day + " Tháng " + recipeCreateDate.Month + ", " + recipeCreateDate.Year +
-                           " Lúc " + recipeCreateDate.ToString("HH:mm");
-          <div class="col-sm-6 ps-0">
-            <div class="border">
-              <div class="recipe-img rounded bg-img" style="background-image:url(@newRecipes[i].Path.Replace("\\","/"))"></div>
-              <div class="py-3 px-2 bg-white">
-                <p class="recipe-title mb-2 fs-5">@newRecipes[i].Recipe.Name</p>
-                <p class="fw-light mb-0"><i>@dateString</i></p>
+        @if (newRecipes != null)
+          @for (int i = 0; i < (newRecipes.Count > 4 ? 4 : newRecipes.Count()); i++)
+          {
+            var recipeCreateDate = newRecipes[i].Recipe.CreatedDate;
+            var dateString = recipeCreateDate.Day + " Tháng " + recipeCreateDate.Month + ", " + recipeCreateDate.Year +
+            " Lúc " + recipeCreateDate.ToString("HH:mm");
+            <div class="col-sm-6 ps-0">
+              <div class="border">
+                <div class="recipe-img rounded bg-img" style="background-image:url(@newRecipes[i].Path.Replace("\\","/"))"></div>
+                <div class="py-3 px-2 bg-white">
+                  <p class="recipe-title mb-2 fs-5">@newRecipes[i].Recipe.Name</p>
+                  <p class="fw-light mb-0"><i>@dateString</i></p>
+                </div>
               </div>
+              <a asp-action="Details" asp-controller="Recipes" asp-route-id="@newRecipes[i].Recipe.Id" class="btn btn-outline-dark mt-2 mb-3">
+                Xem chi tiết
+                <i class="fa-solid fa-arrow-right"></i>
+              </a>
             </div>
-            <a asp-action="Details" asp-controller="Recipes" asp-route-id="@newRecipes[i].Recipe.Id" class="btn btn-outline-dark mt-2 mb-3">
-              Xem chi tiết
-              <i class="fa-solid fa-arrow-right"></i>
-            </a>
-          </div>
-        }
+          }
       </div>
 
     </div>
   </div>
   @if (newRecipes != null)
   {
-    <div class="col-md-4 col-sm-12 p-0 border position-relative d-none d-sm-block" style="max-height: 700px;">
-      <div class="w-100 h-100 rounded d-flex justify-content-center overflow-hidden" >
-        <img class="w-100"  src="@newRecipes[newRecipes.Count()-1].Path" />
+    <div class="col-md-4 p-0 border position-relative d-none d-md-block" style="max-height: 700px;">
+      <div class="w-100 h-100 rounded d-flex justify-content-center overflow-hidden">
+        <img class="w-100" src="@newRecipes[newRecipes.Count()-1].Path" />
       </div>
       <h3 class="position-absolute top-50 text-light ms-3 w-75" style="text-shadow:2px 2px #000;">@newRecipes[newRecipes.Count()-1].Recipe.Name</h3>
       <a asp-action="Details" asp-controller="Recipes" asp-route-id="@newRecipes[newRecipes.Count()-1].Recipe.Id" class="btn btn-light position-absolute bottom-0 end-0">
@@ -81,23 +84,29 @@
 
 <h2 class="text-main mt-5 fw-normal">Bài viết nổi bật</h2>
 <div class="row">
-  @for (int i = 1; i <= 3; i++)
-  {
-    <div class="col-sm-6 col-md-4">
-      <div class="border">
-        <div class="post-img rounded bg-img" style="background-image:url('/img/monan.jpg')"></div>
-        <div class="px-2 py-3 bg-white">
-          <p class="recipe-title mb-2 fs-5">Bài viết củ chuối nào  đó</p>
-          <div class="clearfix">
-            <p class="fw-light mb-0 float-start"><i>@DateTime.Now</i></p>
-            <a class="float-end btn p-0"><i class="fa-regular fa-heart"></i>12</a>
+  @if (popularPosts != null)
+    @for (int i = 0; i < popularPosts.Count(); i++)
+    {
+      var dateString = popularPosts[i].Post.CreatedDate.Day + " Tháng " + popularPosts[i].Post.CreatedDate.Month + ", " + popularPosts[i].Post.CreatedDate.Year +
+      " Lúc " + popularPosts[i].Post.CreatedDate.ToString("HH:mm");
+      <div class="col-sm-6 col-md-4 col-lg-3">
+        <div class="border">
+          <div class="post-img rounded bg-img" style="background-image:url('@popularPosts[i].ImagePath.Replace("\\","/")')"></div>
+          <div class="px-2 py-3 bg-white">
+            <p class="recipe-title mb-2 fs-5">@popularPosts[i].Post.Title</p>
+            <div class="clearfix">
+              <p class="fw-light mb-0 float-start"><i>@dateString</i></p>
+              <p class="float-end p-0 m-0">
+                <i class="fa-regular fa-heart
+                  "></i> @popularPosts[i].Reactioncount
+              </p>
+            </div>
           </div>
         </div>
+        <a asp-action="Details" asp-controller="Posts" asp-route-id="@popularPosts[i].Post.Id" class="btn btn-outline-dark mt-2 mb-3">
+          Xem chi tiết
+          <i class="fa-solid fa-arrow-right"></i>
+        </a>
       </div>
-      <a class="btn btn-outline-dark mt-2 mb-3">
-        Xem chi tiết
-        <i class="fa-solid fa-arrow-right"></i>
-      </a>
-    </div>
-  }
+    }
 </div>

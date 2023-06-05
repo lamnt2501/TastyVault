@@ -1,17 +1,20 @@
-﻿@model TastyVault.Views.Shared._HotBlogModel
+﻿@using System.Text.RegularExpressions;
+@model TastyVault.Controllers.HomeController.NewPost
 @{
-
+  var a = "";
+  Regex reg = new Regex("<[^>]*>");
+  var description = reg.Replace(@Model.Post.Content, "");
 }
 <div class="container-fluid p-0">
   <div class="row">
-    <div class="col-7 p-0 hot-blog-img bg-img" style="background-image:url('@Model.ImagePath')">
+    <div class="col-7 p-0 hot-blog-img bg-img" style="background-image:url('@Model.ImagePath.Replace('\\','/')')">
     </div>
     <div class="col-5 px-0 slider">
       <div class="pt-5 pb-3 px-3 slider">
-        <h1 class="pe-5">@Model.Title</h1>
+        <h1 class="pe-5">@Model.Post.Title</h1>
         <hr />
-        <p class="pe-5">@Model.Description</p>
-        <a class="btn btn-dark mt-5 mb-5">
+        <p class="pe-5">@description.Substring(0,150). . .</p>
+        <a asp-action="Details" asp-controller="Posts" asp-route-id="@Model.Post.Id" class="btn btn-dark mt-5 mb-5">
           Xem chi tiết
           <i class="fa-solid fa-arrow-right"></i>
         </a>

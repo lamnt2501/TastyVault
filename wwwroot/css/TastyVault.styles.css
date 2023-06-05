@@ -64,7 +64,7 @@ html{
 }
 
 .recipe-img {
-  min-height: 200px;
+  min-height: 250px;
 }
 
 .post-img {
@@ -89,6 +89,12 @@ html{
 
 .btn:active {
   transform: scale(0.9);
+}
+
+.btn:hover{
+  background-color: var(--secondary);
+  color: white;
+  border-color: var(--secondary);
 }
 
 .selected-nav-link{
