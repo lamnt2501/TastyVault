@@ -8,8 +8,10 @@
   {
     Layout = "/Areas/Identity/Pages/_Layout.cshtml";
   }
-}
 
+  var index = ViewData["TabIndex"]??0;
+}
+<input  type="hidden" id="tab"  value="@index"/>
 <div class="row justify-content-center">
   <div class="col-2">
     <div>
@@ -22,7 +24,7 @@
 </div>
 
 <div class="row tab-list mb-5">
-  <div class="col-4 tab-item  py-1 tab-active">
+  <div class="col-4 tab-item  py-1">
     <div>
       <p class="m-0 text-center">Bài viết</p>
     </div>
@@ -38,7 +40,7 @@
       <p class="m-0 text-center">10</p>
     </div>
   </div>
-  <div class="col-4 tab-item py-1 ">
+  <div class="col-4 tab-item py-1  tab-active">
     <div>
       <p class="m-0 text-center">Thông tin</p>
     </div>
@@ -48,14 +50,15 @@
   </div>
 </div>
 
-<div class="tab-content-0 active">
-  <p>noi dung gi do1111111</p>
+<div class="tab-content-0 d-none">
+ <partial name="_UserPosts"></partial>
 </div>
-<div class="tab-content-1 d-none">
-  <p>noi dung gi do222222222222</p>
+<div class="tab-content-1 d-none text-center">
+  <h2>Đang trong quá trình phát triển</h2>
+  <img class="w-75" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4m9bu7-LrrYtatLcJ2qaQYth6Asr6vVhUMw&usqp=CAU" />
 </div>
 
-<div class="tab-content-2 d-none">
+<div class="tab-content-2 active">
   <div class="row">
     <div class="col-md-3">
       <partial name="_ManageNav" />
@@ -86,5 +89,6 @@
   tabList.forEach((tab, index) => {
     tab.addEventListener("click",()=>{toggleTab(index)});
    });
-    
+   
+   toggleTab(document.getElementById("tab").value);
 </script>

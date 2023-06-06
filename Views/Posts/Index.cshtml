@@ -23,14 +23,14 @@
   Regex reg = new Regex("<[^>]*>");
 
 }
-<div class="row justify-content-center">
+<div class="row flex-column align-items-center">
   @foreach (var p in posts)
   {
     var createDate = "Vào " + dayOfWeeak[(int)p.CreatedDate.DayOfWeek] + ", "
     + p.CreatedDate.Day + " Tháng " + p.CreatedDate.Month + ", " + p.CreatedDate.Year
     + " Lúc " + p.CreatedDate.ToString("HH:mm");
 
-    <div class="col-md-6 col-sm-8" id="post-@p.Id">
+    <div class="col-md-6 col-sm-8 mb-5" id="post-@p.Id">
       <div class="bg-white px-3 pb-2 rounded">
         <div class="clearfix">
           <div class="float-start">
@@ -61,7 +61,7 @@
           <input type="hidden" name="userid" value="@_userManage.GetUserId(User)" />
           <input type="hidden" name="redirect" value="index" />
           <input type="hidden" name="fragment" value="post-@p.Id" />
-          <button class="btn ps-3"><i class="fa-regular fa-heart" style="@((from r in reactions where r.UserId == _userManage.GetUserId(User) select r).Count()>0?"color:pink;":"")"></i> @((from r in reactions where r.PostId == p.Id select r.Id).Count())</button>
+          <button class="btn ps-3"><i class="fa-regular fa-heart" style="@((from r in reactions where r.UserId == _userManage.GetUserId(User) && r.PostId == p.Id  select r).Count()>0?"color:pink;":"")"></i> @((from r in reactions where r.PostId == p.Id select r.Id).Count())</button>
         </form>
 
         @*<a class="btn ps-3 border-start  rounded-0"><i class="fa-regular fa-heart" style="@((from r in reactions where r.UserId == _userManage.GetUserId(User) select r).Count()>0?"color:pink;":""))"></i> @((from r in reactions where r.PostId == p.Id select r.Id).Count())</a>*@
