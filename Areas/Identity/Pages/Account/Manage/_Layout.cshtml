@@ -8,9 +8,10 @@
   {
     Layout = "/Areas/Identity/Pages/_Layout.cshtml";
   }
-
-  var index = ViewData["TabIndex"]??0;
+  
+  var index = ViewData["TabIndex"] ?? ViewData["id"]??0;
 }
+<h1></h1>
 <input  type="hidden" id="tab"  value="@index"/>
 <div class="row justify-content-center">
   <div class="col-2">
@@ -60,10 +61,10 @@
 
 <div class="tab-content-2 active">
   <div class="row">
-    <div class="col-md-3">
+    <div class="col-md-4">
       <partial name="_ManageNav" />
     </div>
-    <div class="col-md-9">
+    <div class="col-md-8">
       @RenderBody()
     </div>
   </div>

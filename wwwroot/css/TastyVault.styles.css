@@ -27,7 +27,7 @@ html{
 }
 
 .bg-prime {
-  background-color: var(--primary);
+  background-color: var(--primary)!important;
   color: white;
 }
 

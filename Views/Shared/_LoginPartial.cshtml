@@ -12,9 +12,9 @@
       <button class="btn btn-secondary avt-wrap rounded-circle float-end my-2 me-2" style="background: url('/img/logo.png');background-size:cover;" data-bs-toggle="dropdown" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
       </button>
       <div class="dropdown-menu p-0" aria-labelledby="dropdownMenuButton">
-        <a id="manage" class="nav-link text-dark h-100" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Trang cá nhân</a>
+        <a id="manage" class="nav-link text-dark h-100 btn text-start" asp-area="Identity" asp-page="/Account/Manage/Index" asp-route-id="2" title="Manage">Trang cá nhân</a>
         <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-          <button id="logout" type="submit" class="nav-link btn btn-link text-danger border-0">Đăng xuất</button>
+          <button id="logout" type="submit" class="nav-link text-start btn btn-link text-danger border-0 w-100">Đăng xuất</button>
         </form>
       </div>
     </div>
