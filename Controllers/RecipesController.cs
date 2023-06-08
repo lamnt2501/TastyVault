@@ -115,9 +115,11 @@ namespace TastyVault.Controllers
             string path = Path.Combine(_webHostEnvironment.WebRootPath, "uploads", datetimeprefix + file.FileName);
             using var stream = new FileStream(path, FileMode.Create);
             file.CopyTo(stream);
+
             var recipeImage = new RecipeImage();
             recipeImage.RecipeId = recipeId;
             recipeImage.Path = Path.Combine("uploads", datetimeprefix + file.FileName);
+
             _context.Add(recipeImage);
           }
         }

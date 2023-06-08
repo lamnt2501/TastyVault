@@ -22,18 +22,66 @@ namespace TastyVault.Controllers{
         }
         public async Task<IActionResult> Index()
         {
-            var MenuUser = await (from mu in _context.Menus where mu.UserId == _userManager.GetUserId(User) select mu).FirstOrDefaultAsync();
-            if(MenuUser != null){
-                return View(MenuUser);
-            }
-            return NotFound();
+            return View();
+            // var MenuUser = await (from mu in _context.Menus where mu.UserId == _userManager.GetUserId(User) select mu).FirstOrDefaultAsync();
+            // if(MenuUser != null){
+            //     return View(MenuUser);
+            // }
+            // return NotFound();
         }
+        public class MenusModel{
+            public Menus Menus {set; get;}
+            public IFormFile File {set; get;}
+            public int[] RecipeId {set; get;}
+        }
+        [HttpGet]
         public async Task<IActionResult> Create()
         {
-            return _context.Menus != null ?
-                    View(await _context.Menus.ToListAsync()) :
-                    Problem("Entity set 'AppDbContext.Menus'  is null.");
+            ViewData["Recipes"] = _context.Recipes;
+            ViewData["Categories"] = _context.Categories;
+            ViewData["RecipeImages"] = _context.RecipeImages;
+            return View();
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(MenusModel? menusModel)
+        {
+            if(ModelState.IsValid){
+
+                //thêm ngày tạo, Update
+                menusModel.Menus.CreatedDate = DateTime.Now;
+                menusModel.Menus.ModifiedDate= DateTime.Now;
+
+                //thêm userid
+                menusModel.Menus.UserId = _userManager.GetUserId(User);
+
+                // lấy id Menus vừa thêm
+                var menusId = (_context.Menus.OrderBy(m => m.Id).LastOrDefault())?.Id;
+
+                //thêm ảnh
+                string datetimeprefix = DateTime.Now.ToString("yyyyMMddhhmmss");
+                string path = Path.Combine(_webHostEnvironment.WebRootPath, "uploads", datetimeprefix + menusModel.File.FileName);
+                using var stream = new FileStream(path, FileMode.Create);
+                menusModel.File.CopyTo(stream);
+                menusModel.Menus.path = Path.Combine("uploads", datetimeprefix + menusModel.File.FileName);
+                
+                _context.Add(menusModel.Menus);
+                await _context.SaveChangesAsync();
+
+                //thêm các công thức của thực đơn
+                foreach(var r in menusModel.RecipeId){
+                    var menuRecipes = new MenuRecipes();
+                    menuRecipes.RecipeId = r;
+                    menuRecipes.MenuId = menusId;
+                    _context.Add(menuRecipes);
+                }
+                
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            return View();
+        }
+
         public async Task<IActionResult> Details(int? menuId)
         {
             ViewData["Menus"] = _context.Menus.Where(c=>c.Id == menuId).FirstOrDefault();

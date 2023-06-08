@@ -1,5 +1,78 @@
 @model TastyVault.Models.Menus;
-
+@using Newtonsoft.Json;
+@using Newtonsoft.Json.Serialization;
 @{
     ViewData["Title"] = "Delete";
+    var Recipes = ViewData["Recipes"] as List<Recipe>;
+    var Categories = ViewData["Categories"] as List<Category>;
+    var RecipeImages = ViewData["RecipeImages"] as List<RecipeImage>;
+    var js = JsonConvert.SerializeObject(Recipes);
 }
+<input type="hidden" class="data-recipes" value='@js' />
+<hr>
+<div class="row">
+    <div class="col-12">
+        <h1>TẠO THỰC ĐƠN GỢI Ý</h1>
+        <FORm asp-action="Create" method="post" enctype="multipart/form-data">
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="@Model.MenuName" class="control-label"></label>
+                <input asp-for="@Model.MenuName" class="form-control">
+                <span span asp-validation-for="@Model.MenuName" class="text-danger"></span>
+            </div>
+            <div class="form-gropu mb3">
+                <label asp-for="@Model.path" class="control-label">Ảnh thực đơn</label>
+                <input asp-for="@Model.path" class="form-control" />
+                <span asp-validation-for="@Model.path" class="text-danger"></span>
+            </div>
+            <partial name="_RecipePartialModel"></partial>
+            <div class="form-group mt-3">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </FORm>
+    </div>
+</div>
+
+@section Scripts {
+  @{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+  }
+}
+
+@* <img src="https://cdn.tgdd.vn/Files/2021/02/03/1325236/cach-phan-biet-thit-bo-gia-bo-to-nhanh-va-chuan-xac-nhat-202102031343037404.jpg" alt="Your Image" class="img-fluid"> *@
+@* 
+<div id="carouselExampleControls" class="carousel" data-bs-ride="carousel">
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <div class="menus-item">
+                <div class="position-relative">
+                    <img src="https://cdn.tgdd.vn/Files/2021/02/03/1325236/cach-phan-biet-thit-bo-gia-bo-to-nhanh-va-chuan-xac-nhat-202102031343037404.jpg" alt="Image" class="img-fluid">
+                    <div class="position-absolute top-0 start-0 end-0 bottom-0 d-flex align-items-center justify-content-center">
+                        <div class="text-white"><h2>Title</h2></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @for(int i = 0; i< 10; i++){
+        <div class="carousel-item">
+            <div class="menus-item">
+                <div class="position-relative">
+                    <img src="https://cdn.tgdd.vn/Files/2021/02/03/1325236/cach-phan-biet-thit-bo-gia-bo-to-nhanh-va-chuan-xac-nhat-202102031343037404.jpg" alt="Image" class="img-fluid">
+                    <div class="position-absolute top-0 start-0 end-0 bottom-0 d-flex align-items-center justify-content-center">
+                        <div class="text-white"><h2>Title</h2></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        }
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div> *@

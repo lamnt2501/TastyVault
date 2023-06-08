@@ -73,6 +73,7 @@ const AddIngredient = () => {
 const DeleteIngredient = () => {
   ingredientList.removeChild(ingredientList.lastChild);
 }
+
 let jsonImgs;
 if (document.querySelector(".jsonImg") != null) {
   jsonImgs = JSON.parse(document.querySelector(".jsonImg").value);
@@ -134,3 +135,69 @@ window.onscroll = () => {
 
 
 
+
+// --------------------------
+var multipleCardCarousel = document.querySelector(
+  "#carouselExampleControls"
+);
+if (window.matchMedia("(min-width: 768px)").matches) {
+  var carousel = new bootstrap.Carousel(multipleCardCarousel, {
+    interval: false,
+  });
+  var carouselWidth = $(".carousel-inner")[0].scrollWidth;
+  var cardWidth = $(".carousel-item").width();
+  var scrollPosition = 0;
+  $("#carouselExampleControls .carousel-control-next").on("click", function () {
+    if (scrollPosition < carouselWidth - cardWidth * 4) {
+      scrollPosition += cardWidth;
+      $("#carouselExampleControls .carousel-inner").animate(
+        { scrollLeft: scrollPosition },
+        600
+      );
+    }
+  });
+  $("#carouselExampleControls .carousel-control-prev").on("click", function () {
+    if (scrollPosition > 0) {
+      scrollPosition -= cardWidth;
+      $("#carouselExampleControls .carousel-inner").animate(
+        { scrollLeft: scrollPosition },
+        600
+      );
+    }
+  });
+} else {
+  $(multipleCardCarousel).addClass("slide");
+}
+
+
+const RecipesList = document.querySelector(".recipes-list");
+const AddRecipe = () => {
+  // tạo div class form group
+  const formGroup = document.createElement("div");
+  formGroup.classList.add("form-group");
+
+  // tạo label cho thẻ select bên dưới
+  const label1 = document.createElement("label");
+  label1.innerText = "Tên món ăn";
+
+  // tạo thẻ select
+  const select = document.createElement("select");
+  select.setAttribute("name", "r-" + ++RecipesList.childElementCount);
+
+  // tạo các option cho thẻ select, dữ liệu được lấy từ file recipe/create
+  (JSON.parse(document.querySelector(".data-recipes").value)).forEach(r => {
+    const option = document.createElement("option");
+    option.setAttribute("value", r.Id);
+    option.innerText = r.Name;
+    select.appendChild(option);
+  });
+  // thêm các phần từ vào from group
+  formGroup.appendChild(label1);
+  formGroup.appendChild(select);
+
+  RecipesList.appendChild(formGroup);
+}
+
+const DeleteRecipe = () => {
+  RecipesList.removeChild(RecipesList.lastChild);
+}

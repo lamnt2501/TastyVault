@@ -75,10 +75,10 @@ namespace TastyVault.Controllers
         if (categoryModel.FileUpload != null && categoryModel.FileUpload.Length > 0)
         {
           string datetimeprefix = DateTime.Now.ToString("yyyyMMddhhmmss");
-          var path = Path.Combine(_webHostEnvironment.WebRootPath, "uploads",datetimeprefix+ categoryModel.FileUpload.FileName);
+          var path = Path.Combine(_webHostEnvironment.WebRootPath, "uploads",datetimeprefix + categoryModel.FileUpload.FileName);
           using var stream = new FileStream(path, FileMode.Create);
           categoryModel.FileUpload.CopyTo(stream);
-          categoryModel.Category.ImagePath = Path.Combine("uploads", categoryModel.FileUpload.FileName);
+          categoryModel.Category.ImagePath = Path.Combine("uploads", datetimeprefix + categoryModel.FileUpload.FileName);
         }
         _context.Add(categoryModel.Category);
         await _context.SaveChangesAsync();
