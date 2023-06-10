@@ -1,0 +1,57 @@
+﻿@using System.Text.RegularExpressions;
+@using Microsoft.AspNetCore.Identity;
+@inject UserManager<AppUser> _userManage
+@inject AppDbContext context
+@{
+  ViewData["Title"] = "_UserPosts";
+  var dayOfWeeak = new string[]
+    {
+    "Chủ Nhật",
+    "Thứ Hai" ,
+    "Thứ Ba" ,
+    "Thứ Tư" ,
+    "Thứ Năm" ,
+    "Thứ Sáu" ,
+    "Thứ Bảy" ,
+    };
+  var posts = context.Posts.Where(p => p.UserId == _userManage.GetUserId(User)).ToList();
+  Regex reg = new Regex("<[^>]*>");
+}
+
+<div>
+  @foreach (var p in posts)
+  {
+    var dateString = p.CreatedDate.Day + " Tháng " + p.CreatedDate.Month + ", " + p.CreatedDate.Year +
+    " Lúc " + p.CreatedDate.ToString("HH:mm");
+    <div class="col-sm-6 col-md-4 col-xl-3">
+      <div class="border">
+        <div class="post-img rounded bg-img" style="background-image:url('/@context.PostImages.Where(pi=>pi.PostId==p.Id).FirstOrDefault()?.ImagePath.Replace("\\","/")')"></div>
+        <div class="px-2 py-3 bg-white">
+          <p class="recipe-title mb-2 fs-5">@p.Title</p>
+          <div class="clearfix">
+            <p class="fw-light mb-0 float-start"><i>@dateString</i></p>
+            <p class="float-end p-0 m-0">
+              <i class="fa-regular fa-heart" style="
+                  @(context.PostReactions.
+                  Where(pr=>pr.PostId==p.Id).
+                  Where(pr=>pr.UserId==_userManage.GetUserId(User)).FirstOrDefault()!=null ? "color:pink;":"")">
+              </i>
+              1
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="btn-group w-100">
+        <a asp-action="Details" asp-controller="Posts" asp-route-id="@p.Id" class="btn btn-outline-dark mt-2 mb-3">
+          Xem chi tiết
+          <i class="fa-solid fa-arrow-right"></i>
+        </a>
+        <a asp-action="Edit" asp-controller="Posts" asp-route-id="@p.Id" class="btn btn-outline-dark mt-2 mb-3">
+          <i class="fa-regular fa-pen-to-square"></i>
+          Chỉnh sửa
+        </a>
+      </div>
+    </div>
+  }
+</div>
+

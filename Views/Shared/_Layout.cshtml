@@ -36,7 +36,7 @@
             <a class="nav-link text-sub" asp-action="create" asp-controller="Posts">Tạo bài viết</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-sub" asp-area="" asp-controller="Home" asp-action="Privacy">Bài viết của bạn</a>
+            <a class="nav-link text-sub" asp-area="Identity" asp-page="/Account/Manage/Index" asp-route-id="0">Bài viết của bạn</a>
           </li>
           <li class="nav-item">
             <a class="nav-link text-sub" asp-area="" asp-controller="Posts" asp-action="index">Blog chia sẻ</a>
@@ -46,10 +46,10 @@
         <p class="m-0 mt-2 text-main"><strong>THỰC ĐƠN</strong></p>
         <ul class="navbar-nav ms-2">
           <li class="nav-item">
-            <a class="nav-link text-sub" asp-area="" asp-controller="Home" asp-action="Index">Thực đơn gợi ý</a>
+            <a class="nav-link text-sub" asp-area="" asp-controller="Home" asp-action="Index">Hôm nay ăn gì ?</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-sub" asp-area="" asp-controller="Home" asp-action="Privacy">Thực đơn của bạn</a>
+            <a class="nav-link text-sub" asp-area="Identity" asp-page="/Account/Manage/Index" asp-route-id="1">Thực đơn của bạn</a>
           </li>
         </ul>
       </div>

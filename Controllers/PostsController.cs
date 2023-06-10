@@ -123,7 +123,7 @@ namespace TastyVault.Controllers
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Content,CreatedDate,ModifiedDate,Status,UserId")] Post post)
+    public async Task<IActionResult> Edit(int id, [Bind("UserId,Title,Content,CreatedDate")] Post post)
     {
       if (id != post.Id)
       {
@@ -135,9 +135,9 @@ namespace TastyVault.Controllers
         try
         {
           _context.Update(post);
-          await _context.SaveChangesAsync();
+          //await _context.SaveChangesAsync();
         }
-        catch (DbUpdateConcurrencyException)
+        catch (DbUpdateConcurrencyException e)
         {
           if (!PostExists(post.Id))
           {
