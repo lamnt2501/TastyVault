@@ -28,7 +28,7 @@ html{
 }
 
 .bg-prime {
-  background-color: var(--primary);
+  background-color: var(--primary)!important;
   color: white;
 }
 
@@ -65,7 +65,7 @@ html{
 }
 
 .recipe-img {
-  min-height: 200px;
+  min-height: 250px;
 }
 
 .post-img {
@@ -90,6 +90,12 @@ html{
 
 .btn:active {
   transform: scale(0.9);
+}
+
+.btn:hover{
+  background-color: var(--secondary);
+  color: white;
+  border-color: var(--secondary);
 }
 
 .selected-nav-link{
@@ -148,4 +154,13 @@ html{
 
 .form-btn button:hover{
   color: white;
+}
+
+.tab-active{
+  color: var(--primary);
+  border-bottom: 2px solid var(--primary);
+}
+
+.tab-item {
+  cursor: pointer;
 }
