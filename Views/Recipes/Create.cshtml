@@ -4,7 +4,7 @@
 @{
   ViewData["Title"] = "Create";
   var categories = ViewData["Categories"] as List<Category>;
-  var ingredients = ViewData["Ingredients"] as List<Ingredient>;
+  var ingredients = (ViewData["Ingredients"] as List<Ingredient>).OrderBy(i =>(i.Name));
   var js = JsonConvert.SerializeObject(ingredients);
 }
 

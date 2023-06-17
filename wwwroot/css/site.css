@@ -21,7 +21,27 @@ body {
   margin-bottom: 60px;
 }
 
-
+.caption {
+  position: relative;
+  top: -50px;
+  color: white;
+}
+.menus-image{
+  height: 300px;
+  position: relative;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.menus-name{
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 20px;
+  color: white;
+  text-align: center;
+}
 /* --------------------- */
 /* .menus-item{
   width: 80%;

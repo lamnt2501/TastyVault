@@ -1,4 +1,4 @@
-@model TastyVault.Models.Menus;
+@model TastyVault.Controllers.MenusController.MenusModel;
 @using Newtonsoft.Json;
 @using Newtonsoft.Json.Serialization;
 @{
@@ -8,23 +8,24 @@
     var RecipeImages = ViewData["RecipeImages"] as List<RecipeImage>;
     var js = JsonConvert.SerializeObject(Recipes);
 }
+@* <h1>@(js == null)</h1> *@
 <input type="hidden" class="data-recipes" value='@js' />
 <hr>
 <div class="row">
     <div class="col-12">
-        <h1>TẠO THỰC ĐƠN GỢI Ý</h1>
+        <h1>TẠO THỰC ĐƠN</h1>
         <FORm asp-action="Create" method="post" enctype="multipart/form-data">
 
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="@Model.MenuName" class="control-label"></label>
-                <input asp-for="@Model.MenuName" class="form-control">
-                <span span asp-validation-for="@Model.MenuName" class="text-danger"></span>
+                <label asp-for="@Model.Menus.MenuName" class="control-label"></label>
+                <input asp-for="@Model.Menus.MenuName" class="form-control">
+                <span span asp-validation-for="@Model.Menus.MenuName" class="text-danger"></span>
             </div>
             <div class="form-gropu mb3">
-                <label asp-for="@Model.path" class="control-label">Ảnh thực đơn</label>
-                <input asp-for="@Model.path" class="form-control" />
-                <span asp-validation-for="@Model.path" class="text-danger"></span>
+                <label asp-for="@Model.File" class="control-label">Ảnh thực đơn</label>
+                <input asp-for="@Model.File" class="form-control" />
+                <span asp-validation-for="@Model.File" class="text-danger"></span>
             </div>
             <partial name="_RecipePartialModel"></partial>
             <div class="form-group mt-3">

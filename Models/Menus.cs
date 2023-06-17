@@ -10,8 +10,6 @@ namespace TastyVault.Models{
         [StringLength(100)]
         public string MenuName{set; get; }
 
-        [Required]
-        public string path {set; get;}
         public DateTime CreatedDate {set; get;}
         public DateTime ModifiedDate {set; get;}
 

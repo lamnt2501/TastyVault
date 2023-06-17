@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TastyVault.Models;
 
@@ -11,9 +12,11 @@ using TastyVault.Models;
 namespace TastyVault.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230614183251_v6")]
+    partial class v6
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -372,30 +375,6 @@ namespace TastyVault.Migrations
                     b.ToTable("MenusImages");
                 });
 
-            modelBuilder.Entity("TastyVault.Models.MenusUser", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int?>("MenusId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MenusId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("MenusUser");
-                });
-
             modelBuilder.Entity("TastyVault.Models.Post", b =>
                 {
                     b.Property<int>("Id")
@@ -723,23 +702,6 @@ namespace TastyVault.Migrations
                         .HasForeignKey("MenusId");
 
                     b.Navigation("Menus");
-                });
-
-            modelBuilder.Entity("TastyVault.Models.MenusUser", b =>
-                {
-                    b.HasOne("TastyVault.Models.Menus", "Menus")
-                        .WithMany()
-                        .HasForeignKey("MenusId");
-
-                    b.HasOne("TastyVault.Models.AppUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Menus");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("TastyVault.Models.Post", b =>

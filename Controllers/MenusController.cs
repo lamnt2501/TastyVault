@@ -22,24 +22,52 @@ namespace TastyVault.Controllers{
         }
         public async Task<IActionResult> Index()
         {
-            return View();
-            // var MenuUser = await (from mu in _context.Menus where mu.UserId == _userManager.GetUserId(User) select mu).FirstOrDefaultAsync();
-            // if(MenuUser != null){
-            //     return View(MenuUser);
-            // }
-            // return NotFound();
+            // return View();
+            if(_context.Menus != null){
+                ViewData["MenusImage"] = (from mi in _context.MenusImages from m in _context.Menus where m.Id == mi.MenusId select mi).ToList();
+                ViewData["Menus"] = await (from mu in _context.Menus where mu.UserId == _userManager.GetUserId(User) select mu).ToListAsync();
+                return View();
+            }
+            return NotFound();
         }
+        public async Task<IActionResult> SaveMenu()
+        {
+            if(_context.Menus != null){
+                ViewData["MenusImage"] = (from mi in _context.MenusImages from m in _context.Menus where m.Id == mi.MenusId select mi).ToList();
+                return View(_context.Menus);
+            }
+            return NotFound();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> SaveMenu(int? menuId)
+        {
+            if(ModelState.IsValid){
+                var menusUser = new MenusUser();
+                //thêm user id
+                menusUser.UserId = _userManager.GetUserId(User);
+
+                //thêm menusId
+                menusUser.MenusId = menuId;
+
+                //thêm menusUser vào db
+                _context.Add(menusUser);
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction(nameof(Index));
+            }
+            return View();
+        } 
         public class MenusModel{
             public Menus Menus {set; get;}
             public IFormFile File {set; get;}
-            public int[] RecipeId {set; get;}
         }
         [HttpGet]
         public async Task<IActionResult> Create()
         {
-            ViewData["Recipes"] = _context.Recipes;
-            ViewData["Categories"] = _context.Categories;
-            ViewData["RecipeImages"] = _context.RecipeImages;
+            ViewData["Recipes"] = _context.Recipes.ToList();
+            ViewData["Categories"] = _context.Categories.ToList();
+            ViewData["RecipeImages"] = _context.RecipeImages.ToList();
             return View();
         }
         [HttpPost]
@@ -54,6 +82,8 @@ namespace TastyVault.Controllers{
 
                 //thêm userid
                 menusModel.Menus.UserId = _userManager.GetUserId(User);
+                _context.Add(menusModel.Menus);
+                await _context.SaveChangesAsync();
 
                 // lấy id Menus vừa thêm
                 var menusId = (_context.Menus.OrderBy(m => m.Id).LastOrDefault())?.Id;
@@ -63,19 +93,22 @@ namespace TastyVault.Controllers{
                 string path = Path.Combine(_webHostEnvironment.WebRootPath, "uploads", datetimeprefix + menusModel.File.FileName);
                 using var stream = new FileStream(path, FileMode.Create);
                 menusModel.File.CopyTo(stream);
-                menusModel.Menus.path = Path.Combine("uploads", datetimeprefix + menusModel.File.FileName);
+
+                var menusImage = new MenusImage();
+                menusImage.MenusId = menusId;
+                menusImage.ImagePath = Path.Combine("uploads", datetimeprefix + menusModel.File.FileName);
                 
-                _context.Add(menusModel.Menus);
+                _context.Add(menusImage);
                 await _context.SaveChangesAsync();
 
                 //thêm các công thức của thực đơn
-                foreach(var r in menusModel.RecipeId){
+                foreach (var r in Request.Form.Where(keyValuePair => { return keyValuePair.Key.StartsWith("r-"); }))
+                {
                     var menuRecipes = new MenuRecipes();
-                    menuRecipes.RecipeId = r;
+                    menuRecipes.RecipeId = int.Parse(r.Value);
                     menuRecipes.MenuId = menusId;
                     _context.Add(menuRecipes);
                 }
-                
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
@@ -84,12 +117,14 @@ namespace TastyVault.Controllers{
 
         public async Task<IActionResult> Details(int? menuId)
         {
-            ViewData["Menus"] = _context.Menus.Where(c=>c.Id == menuId).FirstOrDefault();
             if (_context.Recipes != null)
             {
+                ViewData["Menus"] = _context.Menus.Where(m => m.Id == menuId).FirstOrDefault();
+                // ViewData["MenusRecipe"] = _context.MenuRecipes.Where(mr => mr.MenuId == menuId).ToList();
                 ViewData["RecipeImage"] = (from img in _context.RecipeImages from rc in _context.Recipes where rc.Id == img.RecipeId select img).ToList();
-                var recipes = await (from r in _context.Recipes from mr in _context.MenuRecipes where mr.Menus.Id == menuId select r).ToListAsync();
-                return View(recipes);
+                ViewData["Recipe"] = (from r in _context.Recipes from mr in _context.MenuRecipes where mr.RecipeId == r.Id select r).ToList();
+                var menusRecipe = _context.MenuRecipes.Where(mr => mr.MenuId == menuId).ToList();
+                return View(menusRecipe);
             }
             return Problem("Entity set 'AppDbContext.Menus'  is null.");
         }
