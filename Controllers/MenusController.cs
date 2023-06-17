@@ -30,34 +30,7 @@ namespace TastyVault.Controllers{
             }
             return NotFound();
         }
-        public async Task<IActionResult> SaveMenu()
-        {
-            if(_context.Menus != null){
-                ViewData["MenusImage"] = (from mi in _context.MenusImages from m in _context.Menus where m.Id == mi.MenusId select mi).ToList();
-                return View(_context.Menus);
-            }
-            return NotFound();
-        }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> SaveMenu(int? menuId)
-        {
-            if(ModelState.IsValid){
-                var menusUser = new MenusUser();
-                //thêm user id
-                menusUser.UserId = _userManager.GetUserId(User);
 
-                //thêm menusId
-                menusUser.MenusId = menuId;
-
-                //thêm menusUser vào db
-                _context.Add(menusUser);
-                await _context.SaveChangesAsync();
-
-                return RedirectToAction(nameof(Index));
-            }
-            return View();
-        } 
         public class MenusModel{
             public Menus Menus {set; get;}
             public IFormFile File {set; get;}
@@ -135,6 +108,83 @@ namespace TastyVault.Controllers{
             if(DetailsMenu != null)
                 return View(DetailsMenu);
             return NotFound();
+        }
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            if (_context.Menus == null)
+            {
+                return Problem("Entity set 'AppDbContext.Recipes'  is null.");
+            }
+            var menus = await _context.Menus.FindAsync(id);
+            if (menus != null)
+            {
+                _context.Menus.Remove(menus);
+            }
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+        public async Task<IActionResult> Save()
+        {
+            if(_context.Menus != null){
+                ViewData["MenusImage"] = (from mi in _context.MenusImages from m in _context.Menus where m.Id == mi.MenusId select mi).ToList();
+                return View(_context.Menus);
+            }
+            return NotFound();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Save(int? menuId)
+        {
+            if(ModelState.IsValid){
+                var menusUser = new MenusUser();
+                //thêm user id
+                menusUser.UserId = _userManager.GetUserId(User);
+
+                //thêm menusId
+                menusUser.MenusId = menuId;
+
+                //thêm menusUser vào db
+                _context.Add(menusUser);
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction(nameof(Save));
+            }
+            return View();
+        } 
+        public async Task<IActionResult> UnSave(int? id)
+        {
+            if (id == null || _context.MenusUser == null)
+            {
+                return NotFound();
+            }
+
+            var menusUser = await _context.MenusUser
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (menusUser == null)
+            {
+                return NotFound();
+            }
+            return View(menusUser);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UnSave(int id)
+        {
+            if (_context.MenusUser == null)
+            {
+                return Problem("Entity set 'AppDbContext.Recipes'  is null.");
+            }
+            var menusUser = await _context.MenusUser.FindAsync(id);
+            if (menusUser != null)
+            {
+                _context.MenusUser.Remove(menusUser);
+            }
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Save));
         }
     }
 }

@@ -226,7 +226,6 @@ namespace TastyVault.Controllers
       {
         return NotFound();
       }
-
       return View(recipe);
     }
 
