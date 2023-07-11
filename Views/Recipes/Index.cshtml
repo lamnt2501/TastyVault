@@ -9,11 +9,11 @@
 @if (category != null)
 {
 <div class="bg-white rounded-3 position-relative category-recipe-index-outer" style="height:100px">
-  <div class="position-absolute category-recipe-index-inner" style="width:100px;height:100px;">
-    <img class="w-100 h-100 rounded-circle" src="@category.ImagePath" />
-    <h2 style="width: 200px">@category.Name</h2>
+  <div class="position-absolute category-recipe-index-inner category-display">
+    <img class="rounded-circle"  src="@category.ImagePath" style="width:100px;height:100px;" />
+    <h2 class="text-center" style="max-width: 400px">@category.Name</h2>
   </div>
-  </div>
+</div>
 }
 else
 {

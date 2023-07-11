@@ -42,6 +42,27 @@ body {
   color: white;
   text-align: center;
 }
+.category-display {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 150px;
+}
+.new-recipe-image {
+    position: relative;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.post-image {
+    height: 400px;
+    position: relative;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
 /* --------------------- */
 /* .menus-item{
   width: 80%;

@@ -1,10 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TastyVault.Models
 {
   public class PostComment
   {
+
     [Key]
     public int Id { get; set; }
     public string UserId { get; set; }

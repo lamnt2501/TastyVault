@@ -1,5 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Identity;
 @using static TastyVault.Controllers.HomeController;
+
 @inject TastyVault.Models.AppDbContext context
 @inject UserManager<AppUser> _userManage
 
@@ -71,7 +72,8 @@
   {
     <div class="col-md-4 p-0 border position-relative d-none d-md-block" style="max-height: 700px;">
       <div class="w-100 h-100 rounded d-flex justify-content-center overflow-hidden">
-        <img class="w-100" src="@newRecipes[newRecipes.Count()-1].Path" />
+        <div class="w-100 new-recipe-image" style="background-image: linear-gradient(0, rgba(0, 0, 0, 0.3),rgba(0, 0, 0,0.3)), url('@newRecipes[newRecipes.Count()-1].Path.Replace('\\','/')');"></div>
+        @*<img class="w-100" src="@newRecipes[newRecipes.Count()-1].Path" />*@
       </div>
       <h3 class="position-absolute top-50 text-light ms-3 w-75" style="text-shadow:2px 2px #000;">@newRecipes[newRecipes.Count()-1].Recipe.Name</h3>
       <a asp-action="Details" asp-controller="Recipes" asp-route-id="@newRecipes[newRecipes.Count()-1].Recipe.Id" class="btn btn-light position-absolute bottom-0 end-0">

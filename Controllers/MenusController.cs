@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using TastyVault.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Extensions;
 
 namespace TastyVault.Controllers{
     public class MenusController : Controller
@@ -184,7 +186,8 @@ namespace TastyVault.Controllers{
             }
 
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Save));
+            
+            return Redirect(HttpContext.Request.Headers["Referer"].ToString());
         }
     }
 }
