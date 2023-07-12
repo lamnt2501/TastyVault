@@ -32,7 +32,8 @@
 
 
 <div style="max-height: 400px;overflow:hidden" class="position-relative">
-  <img src="/@postImg.ImagePath" class="" />
+  <div class="w-100 post-image" style="background-image: linear-gradient(0, rgba(0, 0, 0, 0.3),rgba(0, 0, 0,0.3)), url('/@postImg.ImagePath.Replace('\\','/')');"></div>
+  @*<img src="/@postImg.ImagePath" class="" />*@
   <h3 class="position-absolute top-50 start-50 text-center text" style="transform:translateX(-50%);text-shadow: 2px 2px #fff">
     @Model.Title
   </h3>

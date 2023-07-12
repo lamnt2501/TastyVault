@@ -1,0 +1,29 @@
+@model IEnumerable<TastyVault.Models.MenuRecipes>
+
+@{
+    ViewData["Title"] = "Details";
+    var menusRecipe = Model.ToList();
+    var recipe = ViewData["Recipe"] as List<Recipe>;
+    var recipeImg = ViewData["RecipeImage"] as List<RecipeImage>;
+    var recipes = Model.ToList();
+}
+<div class="row recipe-list">
+  @foreach (var mr in menusRecipe)
+  {
+    <div class="col-sm-6 col-md-3 ps-0">
+      <div class="border">
+          <div class="recipe-img rounded bg-img" style="background-image:url(/@recipeImg.FirstOrDefault(ri => ri.RecipeId == mr.RecipeId)?.Path.Replace('\\','/'));"></div>
+        <div class="py-3 px-2 bg-white">
+          <p class="recipe-title mb-2 fs-5">@recipe.FirstOrDefault(r => r.Id == mr.RecipeId).Name</p>
+        </div>
+      </div>
+      <form asp-action="Details" asp-controller="Recipes" method="get">
+        <input type="hidden" value="@mr.RecipeId" name="id">
+        <button class="btn btn-outline-dark mt-2 mb-3">
+          Xem chi tiết
+          <i class="fa-solid fa-arrow-right"></i>
+        </button>
+      </form>
+    </div>
+  }
+</div>

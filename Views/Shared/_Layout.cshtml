@@ -46,7 +46,7 @@
         <p class="m-0 mt-2 text-main"><strong>THỰC ĐƠN</strong></p>
         <ul class="navbar-nav ms-2">
           <li class="nav-item">
-            <a class="nav-link text-sub" asp-area="" asp-controller="Home" asp-action="Index">Hôm nay ăn gì ?</a>
+            <a class="nav-link text-sub" asp-area="" asp-controller="Menus" asp-action="Save">Hôm nay ăn gì ?</a>
           </li>
           <li class="nav-item">
             <a class="nav-link text-sub" asp-area="Identity" asp-page="/Account/Manage/Index" asp-route-id="1">Thực đơn của bạn</a>
@@ -85,7 +85,7 @@
         </header>
 
         <main role="main" class="pb-3 bg-main">
-          <div class=" container-fluid pt-3">
+          <div class=" container pt-3">
             @RenderBody()
           </div>
         </main>

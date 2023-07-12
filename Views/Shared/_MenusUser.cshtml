@@ -1,0 +1,35 @@
+@using System.Text.RegularExpressions;
+@using Microsoft.AspNetCore.Identity;
+@inject UserManager<AppUser> _userManage
+@inject AppDbContext _context
+
+@{
+    var MenusUser = _context.MenusUser.Where(mu => mu.UserId == _userManage.GetUserId(User)).ToList();
+    var Menus = (from m in _context.Menus from mu in _context.MenusUser where m.Id == mu.MenusId select m).ToList();
+    var MenusImg = _context.MenusImages;
+}
+<div class="container">
+  <div class="row r">
+    @foreach (var m in MenusUser)
+    {
+      <div class="col-4" >
+        <div class="text-center menus-image" style="background-image: linear-gradient(0, rgba(0, 0, 0, 0.3),rgba(0, 0, 0,0.3)), url('/@MenusImg.FirstOrDefault(mi=>mi.MenusId==m.MenusId)?.ImagePath.Replace('\\','/')');">
+          <h1 class=" menus-name">@Menus.Where(ms => ms.Id == m.MenusId).FirstOrDefault()?.MenuName</h1>
+        </div>
+        <form asp-action="Details" asp-controller="Menus" method="get">
+          <input type="hidden" value="@m.MenusId" name="menuid">
+          <button class="btn btn-outline-dark mt-2 mb-3">
+            Xem chi tiết
+            <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </form>
+        <form asp-action="UnSave" asp-controller="Menus">
+          <input type="hidden" value="@m.Id" name="id">
+            <button class="btn btn-outline-dark mt-2 mb-3">
+            xóa thực đơn
+          </button>
+        </form>
+      </div>
+    }
+  </div>
+</div>

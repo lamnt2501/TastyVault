@@ -31,7 +31,6 @@ namespace TastyVault.Controllers
         ViewData["RecipeImage"] = (from img in _context.RecipeImages from rc in _context.Recipes where rc.Id == img.RecipeId select img).ToList();
         var recipes = await (from r in _context.Recipes join rc in _context.RecipeCategories on r.Id equals rc.RecipeId where rc.Category.Id == cateId select r).ToListAsync();
         return View(recipes);
-
       }
       return Problem("Entity set 'AppDbContext.Recipes'  is null.");
     }
@@ -116,9 +115,11 @@ namespace TastyVault.Controllers
             string path = Path.Combine(_webHostEnvironment.WebRootPath, "uploads", datetimeprefix + file.FileName);
             using var stream = new FileStream(path, FileMode.Create);
             file.CopyTo(stream);
+
             var recipeImage = new RecipeImage();
             recipeImage.RecipeId = recipeId;
             recipeImage.Path = Path.Combine("uploads", datetimeprefix + file.FileName);
+
             _context.Add(recipeImage);
           }
         }
@@ -225,7 +226,6 @@ namespace TastyVault.Controllers
       {
         return NotFound();
       }
-
       return View(recipe);
     }
 

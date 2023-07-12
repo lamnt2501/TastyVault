@@ -1,0 +1,33 @@
+@model IEnumerable<TastyVault.Models.Menus>;
+
+@{
+    ViewData["Title"] = "Delete";
+    var MenusImg = ViewData["MenusImage"] as List<MenusImage>;
+    var Menus = Model.ToList();
+}
+<div class="container">
+  <div class="row r">
+    @foreach (var m in Menus)
+    {
+      <div class="col-4" >
+        <div class="text-center menus-image" style="background-image: linear-gradient(0, rgba(0, 0, 0, 0.3),rgba(0, 0, 0,0.3)), url('/@MenusImg.FirstOrDefault(mi=>mi.MenusId==m.Id)?.ImagePath.Replace('\\','/')');">
+          <h1 class=" menus-name">@m.MenuName</h1>
+        </div>
+        <form asp-action="Details" method="get">
+          <input type="hidden" value="@m.Id" name="menuid">
+          <button class="btn btn-outline-dark mt-2 mb-3">
+            Xem chi tiết
+            <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </form>
+        <form asp-action="Save" method="post">
+          <input type="hidden" value="@m.Id" name="menuid">
+          <button class="btn btn-outline-dark mt-2 mb-3">
+            lưu vào hồ sơ
+            <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </form>
+      </div>
+    }
+  </div>
+</div>

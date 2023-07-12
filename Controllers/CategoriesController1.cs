@@ -13,7 +13,11 @@ namespace TastyVault.Controllers
     {
       _webHostEnvironment = webHostEnvironment;
       _context = context;
-    }
+    }   
+    //public CategoriesController(AppDbContext context)
+    //{
+    //  _context = context;
+    //}
 
     // GET: Categories
     public async Task<IActionResult> Index()
@@ -42,7 +46,7 @@ namespace TastyVault.Controllers
     }
 
     // GET: Categories/Create
-    public IActionResult Create()
+    public async Task<IActionResult> Create()
     {
       return View();
     }
@@ -65,6 +69,10 @@ namespace TastyVault.Controllers
     {
       if (ModelState.IsValid)
       {
+        if(categoryModel.Category == null || categoryModel.FileUpload == null)
+        {
+            return BadRequest(categoryModel);
+        }
         if (categoryModel.Category.ParentCatecoryId != 0)
         {
           if (_context.Categories.Where(c => c.Id == categoryModel.Category.ParentCatecoryId).FirstOrDefault() == null)
@@ -75,10 +83,10 @@ namespace TastyVault.Controllers
         if (categoryModel.FileUpload != null && categoryModel.FileUpload.Length > 0)
         {
           string datetimeprefix = DateTime.Now.ToString("yyyyMMddhhmmss");
-          var path = Path.Combine(_webHostEnvironment.WebRootPath, "uploads",datetimeprefix+ categoryModel.FileUpload.FileName);
+          var path = Path.Combine(_webHostEnvironment.WebRootPath, "uploads",datetimeprefix + categoryModel.FileUpload.FileName);
           using var stream = new FileStream(path, FileMode.Create);
           categoryModel.FileUpload.CopyTo(stream);
-          categoryModel.Category.ImagePath = Path.Combine("uploads", categoryModel.FileUpload.FileName);
+          categoryModel.Category.ImagePath = Path.Combine("uploads", datetimeprefix + categoryModel.FileUpload.FileName);
         }
         _context.Add(categoryModel.Category);
         await _context.SaveChangesAsync();
