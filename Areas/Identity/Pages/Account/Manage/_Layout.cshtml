@@ -1,4 +1,6 @@
 ﻿@inject UserManager<AppUser> userManager
+@inject AppDbContext context
+
 @{
   if (ViewData.TryGetValue("ParentLayout", out var parentLayout) && parentLayout != null)
   {
@@ -30,7 +32,7 @@
       <p class="m-0 text-center">Bài viết</p>
     </div>
     <div>
-      <p class="m-0 text-center">10</p>
+      <p class="m-0 text-center">@(context.Posts.Where(p => p.UserId == userManager.GetUserId(User)).Count())</p>
     </div>
   </div>
   <div class="col-4 tab-item py-1 ">
@@ -38,7 +40,7 @@
       <p class="m-0 text-center">Thực đơn</p>
     </div>
     <div>
-      <p class="m-0 text-center">10</p>
+      <p class="m-0 text-center">0</p>
     </div>
   </div>
   <div class="col-4 tab-item py-1  tab-active">

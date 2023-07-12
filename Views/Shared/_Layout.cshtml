@@ -14,7 +14,7 @@
 
   <div class="container-fluid">
     <div class="row">
-      <div class=" d-none d-md-block col-2 border-end position-fixed top-0 start-0 z-1 h-100">
+      <div class="menu-side-bar d-none d-md-block col-2 border-end position-fixed top-0 start-0 z-1 h-100">
 
         <div class="logo-wrap">
           <img class="img-fluid" src="~/img/logo.png" />
@@ -56,8 +56,8 @@
 
       <div class="col-12 col-md-10 px-0 content-wrap">
         <header class="header-wrap clearfix">
-
-          <ul class="nav float-start">
+          
+         @* <ul class="nav float-start">
             <li class="nav-item">
               <a class="nav-link" asp-action="create" asp-controller="Categories">Tạo danh mục</a>
             </li>
@@ -71,7 +71,7 @@
               </li>
             }
           </ul>
-
+*@
           @await Html.PartialAsync("_LoginPartial")
           @* khi người dùng đã đăng nhập*@
           @* <div class="dropdown" style="background: url('/img/monan.jpg') center no-repeat">

@@ -2,8 +2,10 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using NuGet.Protocol;
 using TastyVault.Models;
 using static TastyVault.Controllers.CategoriesController;
 
@@ -123,32 +125,48 @@ namespace TastyVault.Controllers
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(int id, [Bind("UserId,Title,Content,CreatedDate")] Post post)
+    public async Task<IActionResult> Edit(int id, [Bind("UserId,Title,Content,CreatedDate")] Post post,IFormFile? file)
     {
-      if (id != post.Id)
+      Post p = await _context.Posts.FindAsync(id);
+      p.ModifiedDate = DateTime.Now;
+      p.Title = post.Title;
+      p.Content = post.Content;
+      if (file != null && file.Length > 0)
       {
-        return NotFound();
+        _context.PostImages.Remove(_context.PostImages.Where(pi => pi.PostId==id).FirstOrDefault());
+        string datetimeprefix = DateTime.Now.ToString("yyyyMMddhhmmss");
+        var path = Path.Combine(_webHostEnvironment.WebRootPath, "uploads", datetimeprefix + file.FileName);
+        using var stream = new FileStream(path, FileMode.Create);
+        file.CopyTo(stream);
+        var postImg = new PostImage()
+        {
+          ImagePath = Path.Combine("uploads", datetimeprefix + file.FileName),
+          PostId = id
+        };
+        _context.Add(postImg);
+        await _context.SaveChangesAsync();
       }
-
       if (ModelState.IsValid)
       {
         try
         {
-          _context.Update(post);
-          //await _context.SaveChangesAsync();
+          _context.Update(p);
+          await _context.SaveChangesAsync();
         }
         catch (DbUpdateConcurrencyException e)
         {
-          if (!PostExists(post.Id))
+          if (!PostExists(id))
           {
-            return NotFound();
+            return Content(id.ToString());
           }
           else
           {
             throw;
           }
         }
-        return RedirectToAction(nameof(Index));
+        //return RedirectToAction(nameof(Index));
+        //return RedirectToPage("/Manage", new {id=0});
+        return Redirect("http://localhost:5271/Identity/Account/Manage?id=0");
       }
       ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", post.UserId);
       return View(post);
@@ -185,6 +203,8 @@ namespace TastyVault.Controllers
       var post = await _context.Posts.FindAsync(id);
       if (post != null)
       {
+        _context.PostComments.RemoveRange(_context.PostComments.Where(c => c.PostId == id));
+        _context.PostImages.Remove(_context.PostImages.Where(c => c.PostId == id).FirstOrDefault());
         _context.Posts.Remove(post);
       }
 

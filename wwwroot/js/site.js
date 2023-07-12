@@ -163,9 +163,10 @@ window.onscroll = () => {
   }
 }
 
-
-
-
+const menuToggle = document.querySelector(".show-menu");
+menuToggle.addEventListener("click", function () {
+  document.querySelector(".menu-side-bar").classList.toggle("show-menu");
+});
 
 // --------------------------
 // var multipleCardCarousel = document.querySelector(

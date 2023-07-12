@@ -94,7 +94,6 @@ html{
 
 .btn:hover{
   background-color: var(--secondary);
-  color: white;
   border-color: var(--secondary);
 }
 
@@ -163,4 +162,8 @@ html{
 
 .tab-item {
   cursor: pointer;
+}
+
+.show-menu{
+  display: block !important;
 }
