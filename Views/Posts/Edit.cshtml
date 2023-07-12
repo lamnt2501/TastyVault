@@ -9,43 +9,8 @@
 
 <div class="row justify-content-center">
   <div class="col-md-8 col-sm-8">
-    <form asp-action="Edit" class="w">
+    <form asp-action="Edit" class="w" enctype="multipart/form-data">
       <input type="hidden" name="id" value="@Model.Id" />
-      @*   <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-      <div class="form-group">
-      <label asp-for="Title" class="control-label"></label>
-      <input asp-for="Title" class="form-control" />
-      <span asp-validation-for="Title" class="text-danger"></span>
-      </div>
-      <div class="form-group">
-      <label asp-for="Content" class="control-label"></label>
-      <input asp-for="Content" class="form-control" />
-      <span asp-validation-for="Content" class="text-danger"></span>
-      </div>
-      <div class="form-group">
-      <label asp-for="CreatedDate" class="control-label"></label>
-      <input asp-for="CreatedDate" class="form-control" />
-      <span asp-validation-for="CreatedDate" class="text-danger"></span>
-      </div>
-      <div class="form-group">
-      <label asp-for="ModifiedDate" class="control-label"></label>
-      <input asp-for="ModifiedDate" class="form-control" />
-      <span asp-validation-for="ModifiedDate" class="text-danger"></span>
-      </div>
-      <div class="form-group">
-      <label asp-for="Status" class="control-label"></label>
-      <input asp-for="Status" class="form-control" />
-      <span asp-validation-for="Status" class="text-danger"></span>
-      </div>
-      <div class="form-group">
-      <label asp-for="UserId" class="control-label"></label>
-      <select asp-for="UserId" class="form-control" asp-items="ViewBag.UserId"></select>
-      <span asp-validation-for="UserId" class="text-danger"></span>
-      </div>
-      <div class="form-group">
-      <input type="submit" value="Save" class="btn btn-primary" />
-      </div>*@
-
       <input type="hidden" asp-for="UserId" value="@Model.UserId" />
         <div class="form-group">
           <label for="post-img" class="control-label">Ảnh đại diện bài viết</label>
@@ -67,15 +32,15 @@
         <label asp-for="UserId" class="control-label"></label>
         <select asp-for="UserId" class ="form-control" asp-items="ViewBag.UserId"></select>
         </div>*@
-        <div class="form-group">
+        <div class="form-group text-center">
           <input type="submit" value="Lưu" class="btn btn-outline-success w-75 form-control mt-3" />
         </div>
     </form>
+    <form asp-action="Delete" method="get" class="text-center">
+      <input type="hidden" name="id" value="@Model.Id" />
+      <input type="submit" value="Xóa bài viết" class="btn btn-outline-success w-75 form-control mt-3" />
+    </form>
   </div>
-</div>
-
-<div>
-  <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {
